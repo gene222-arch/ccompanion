@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('registrars', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Department::class);
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Department::class)->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->integer('birthed_at');
