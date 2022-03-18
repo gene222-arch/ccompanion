@@ -1,0 +1,18 @@
+.register-btn,
+.register-page-header {
+    background-color: #3f51b5;
+}
+
+.register-row-container,
+.register-container {
+    height: '100vh';
+    width: '100%';
+}
+
+
+.register-page-left-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
