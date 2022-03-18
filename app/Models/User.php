@@ -45,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function registrar(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Registrar::class);
+    }
 }

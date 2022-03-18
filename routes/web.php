@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\RegistrarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,5 @@ Route::middleware('auth')->group(function ()
     Route::resource('administrators', AdminController::class);
     Route::resource('courses', CourseController::class);
     Route::resource('departments', DepartmentController::class);
+    Route::resource('registrars', RegistrarController::class);
 });
