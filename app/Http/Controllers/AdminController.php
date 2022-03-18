@@ -47,9 +47,11 @@ class AdminController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $administrator = User::create($request->validated() + [
+        $data = array_merge($request->validated(), [
             'password' => Hash::make($request->password)
         ]);
+
+        $administrator = User::create($data);
 
         $administrator->assignRole(Role::findByName('Administrator'));
 
@@ -94,9 +96,11 @@ class AdminController extends Controller
     {
         $administratorName = $administrator->name;
 
-        $administrator = $administrator->update($request->validated() + [
+        $data = array_merge($request->validated(), [
             'password' => Hash::make($request->password)
         ]);
+        
+        $administrator = $administrator->update($data);
 
         return Redirect::route('administrators.index')
             ->with([
