@@ -1,0 +1,6 @@
+.create-button-icon {
+    transition: color 0.25s;
+}
+.create-button-icon:hover {
+    color: #388e3c !important;
+}

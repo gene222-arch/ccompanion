@@ -8,7 +8,7 @@
 	<div class="p-3">
 		<div class="row mb-5 mt-3 justify-content-center align-items-center">
 			<div class="col-3">
-				<img class="img img-responsive" src="{{ asset("storage/app/logo.png") }}" width="40" height="40">
+				<img class="img img-responsive" src="{{ asset("logo.png") }}" width="40" height="40">
 			</div>
 			<div class="col">
 				<h6><strong>{{ Auth::user()->name }}</strong></h6>

@@ -12,6 +12,7 @@
   <script src="https://kit.fontawesome.com/47fd6b8a56.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{ asset('css/app.css')}}">
   <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+  <link rel="stylesheet" href="{{ asset('css/main.layout.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   @yield('links')
   @yield('css')
