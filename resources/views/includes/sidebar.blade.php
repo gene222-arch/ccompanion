@@ -38,6 +38,13 @@
 					Departments</a>
 				</li>
 			@endhasanyrole
+			@hasanyrole('Super Administrator|Administrator')
+				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
+					<a href="/registrars">
+						<i class="fa-solid fa-user-tie mr-3 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
+					Registrars</a>
+				</li>
+			@endhasanyrole
 			<li>
 				<a href="#" class="nav-link" onclick="document.getElementById('logout__form').submit()">
 					<p><i class="fa-solid fa-arrow-right-from-bracket mr-4"></i>Logout</p>
