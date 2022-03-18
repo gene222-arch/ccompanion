@@ -26,6 +26,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Department</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@
                             </a>
                         </td>
                         <td>{{ $registrar->email }}</td>
+                        <td>{{ $registrar->registrar->department->name }}</td>
                         <td>
                             <div 
                                 class="form-group my-2" 

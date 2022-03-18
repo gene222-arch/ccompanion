@@ -23,4 +23,9 @@ class Registrar extends Model
         'last_name',
         'birthed_at'
     ];
+
+    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
 }
