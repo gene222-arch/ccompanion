@@ -17,7 +17,7 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <small><strong class="text-info">Note</strong> Select the name of the user to edit</small>
+            <small><strong class="text-info">Note</strong> Select the name of the administrator to edit</small>
         </div>
     </div>
     <div class="card p-3">
@@ -30,20 +30,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($administrators as $user)
+                @foreach ($administrators as $administrator)
                     <tr>
                         <td>
                             <a 
                                 class="select-to-edit" 
-                                href="{{ route('administrators.edit', $user->id) }}"
+                                href="{{ route('administrators.edit', $administrator->id) }}"
                                 data-toggle="tooltip" 
                                 data-placement="right" 
-                                title="Edit selected user"
+                                title="Edit selected administrator"
                             >
-                                {{ $user->name }}
+                                {{ $administrator->name }}
                             </a>
                         </td>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $administrator->email }}</td>
                         <td>
                             <div 
                                 class="form-group my-2" 
@@ -55,12 +55,12 @@
                                     type="submit" 
                                     class="btn btn-danger"
                                     data-toggle="modal" 
-                                    data-target="#user{{ $user->id }}"
+                                    data-target="#administrator{{ $administrator->id }}"
                                 >
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                            <div class="modal fade" id="user{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="administrator{{ $administrator->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -70,11 +70,11 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Delete selected user named <i class="text-danger">{{ $user->name }}</i>
+                                            Delete selected administrator named <i class="text-danger">{{ $administrator->name }}</i>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                                            <form action="{{ route('administrators.destroy', $user->id) }}" method="post">
+                                            <form action="{{ route('administrators.destroy', $administrator->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-warning">Continue</button>
