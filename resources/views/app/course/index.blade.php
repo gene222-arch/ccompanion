@@ -55,12 +55,12 @@
                                     type="submit" 
                                     class="btn btn-danger"
                                     data-toggle="modal" 
-                                    data-target="#course{{ $course->name }}"
+                                    data-target="#course{{ $course->id }}"
                                 >
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                            <div class="modal fade" id="course{{ $course->name }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="course{{ $course->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -73,7 +73,7 @@
                                             Delete selected course named <i class="text-danger">{{ $course->name }}</i>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                                             <form action="{{ route('courses.destroy', $course->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')

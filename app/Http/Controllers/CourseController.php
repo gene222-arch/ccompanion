@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Course\StoreRequest;
 use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CourseController extends Controller
 {
@@ -26,18 +29,25 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.course.create', [
+            'departments' => Department::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Course\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        Course::create($request->validated());
+
+        return Redirect::route('courses.index')
+            ->with([
+                'successMessage' => 'Course created successfully.'
+            ]);
     }
 
     /**
@@ -77,11 +87,17 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Course $course)
     {
-        //
+        $courseName = $course->name;
+        $course->delete();
+
+        return Redirect::route('courses.index')
+            ->with([
+                'successMessage' => "{$courseName} deleted successfully."
+            ]);
     }
 }
