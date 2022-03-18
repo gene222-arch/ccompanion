@@ -16,6 +16,7 @@
                                 class="form-control @error('name') is-invalid @enderror" 
                                 placeholder="Enter name" 
                                 name="name"
+                                value="{{ old('name') }}"
                             >
                             @error('name')
                                 <div class="invalid-feedback">
@@ -34,7 +35,12 @@
                             >
                                 <option value="0">Select department</option>
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    <option 
+                                        {{ old('department_id', 0) == $department->id ? 'selected' : '' }}
+                                        value="{{ $department->id }}"
+                                    >
+                                        {{ $department->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('department_id')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Course\StoreRequest;
+use App\Http\Requests\Course\UpdateRequest;
 use App\Models\Course;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -64,24 +65,32 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Course $course)
     {
-        //
+        return view('app.course.edit', [
+            'course' => $course,
+            'departments' => Department::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Course\UpdateRequest  $request
+     * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Course $course)
     {
-        //
+        $course->update($request->validated());
+
+        return Redirect::route('courses.index')
+            ->with([
+                'successMessage' => 'Course updated successfully.'
+            ]);
     }
 
     /**
