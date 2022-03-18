@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Administrator\StoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -27,18 +30,27 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.admin.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Administrator\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $administrator = User::create($request->validated() + [
+            'password' => Hash::make($request->password)
+        ]);
+        
+        $administrator->assignRole(Role::findByName('Administrator'));
+
+        return Redirect::route('administrators.index')
+            ->with([
+                'successMessage' => 'Administrator created successfully.'
+            ]);
     }
 
     /**
