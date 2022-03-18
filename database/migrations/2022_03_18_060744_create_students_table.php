@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -15,12 +16,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('registrars', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Department::class)->constrained();
+            $table->string('student_id')->unique();
+            $table->foreignIdFor(User::class)->unique()->constrained();
+            $table->foreignIdFor(Course::class)->unique()->constrained();
+            $table->foreignIdFor(Department::class)->unique()->constrained();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('guardian');
+            $table->string('contact_number')->unique();
             $table->timestamp('birthed_at');
             $table->timestamps();
         });
@@ -33,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registrars');
+        Schema::dropIfExists('students');
     }
 };
