@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="display-6 px-2 py-3">Create Course</div>
+    <div class="display-6 px-2 py-3">Update Course</div>
     <div class="card">
         <div class="card-body">
             <form action="{{ route('courses.update', $course->id) }}" method="post">

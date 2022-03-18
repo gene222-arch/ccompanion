@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Department\StoreRequest;
+use App\Http\Requests\Department\UpdateRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -66,19 +67,27 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        return view('app.department.edit', [
+            'department' => $department
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Department\UpdateRequest  $request
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(UpdateRequest $request, Department $department)
     {
-        //
+        $departmentName = $department->name;
+        $department->update($request->validated());
+
+        return Redirect::route('departments.index')
+            ->with([
+                'successMessage' => $departmentName . ' updated successfully.'
+            ]);
     }
 
     /**
