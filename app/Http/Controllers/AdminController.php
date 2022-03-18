@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Administrator\StoreRequest;
+use App\Http\Requests\Administrator\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +45,7 @@ class AdminController extends Controller
         $administrator = User::create($request->validated() + [
             'password' => Hash::make($request->password)
         ]);
-        
+
         $administrator->assignRole(Role::findByName('Administrator'));
 
         return Redirect::route('administrators.index')
@@ -72,19 +73,30 @@ class AdminController extends Controller
      */
     public function edit(User $administrator)
     {
-        //
+        return view('app.admin.edit', [
+            'administrator' => $administrator
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Administrator\UpdateRequest  $request
      * @param  \App\Models\User  $administrator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $administrator)
+    public function update(UpdateRequest $request, User $administrator)
     {
-        //
+        $administratorName = $administrator->name;
+
+        $administrator = $administrator->update($request->validated() + [
+            'password' => Hash::make($request->password)
+        ]);
+
+        return Redirect::route('administrators.index')
+            ->with([
+                'successMessage' => $administratorName . ' updated successfully.'
+            ]);
     }
 
     /**

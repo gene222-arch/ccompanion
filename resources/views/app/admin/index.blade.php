@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -42,6 +43,7 @@
                                 {{ $user->name }}
                             </a>
                         </td>
+                        <td>{{ $user->email }}</td>
                         <td>
                             <div 
                                 class="form-group my-2" 
