@@ -17,16 +17,30 @@
 		</div>
       <ul class="list-unstyled components mb-5">
 			<li class="{{ request()->is('/') ? 'active' : '' }}">
-				<a href="/"><span class="fa fa-home mr-3 {{ request()->is('/') ? 'text-info' : '' }}"></span> Dashboard</a>
+				<a href="/"><span class="fa-solid fa-home mr-3 {{ request()->is('/') ? 'text-info' : '' }}"></span> Dashboard</a>
 			</li>
-			@hasrole('Administrator')
-				<li class="{{ request()->is('residents') || request()->is('residents/*') ? 'active' : '' }}">
-					<a href="/residents"><i class="fas fa-user mr-3 {{ request()->is('residents') || request()->is('residents/*') ? 'text-info' : '' }}"></i> Residents</a>
+			@hasrole('Super Administrator')
+				<li class="{{ request()->is('administrators') || request()->is('administrators/*') ? 'active' : '' }}">
+					<a href="/administrators">
+						<i class="fa-solid fa-user-shield mr-3 {{ request()->is('administrators') || request()->is('administrators/*') ? 'text-info' : '' }}"></i> 
+					Administrators</a>
 				</li>
 			@endhasrole
+			@hasanyrole('Super Administrator|Administrator|Registrar')
+				<li class="{{ request()->is('courses') || request()->is('courses/*') ? 'active' : '' }}">
+					<a href="/courses">
+						<i class="fa-solid fa-graduation-cap mr-3 {{ request()->is('courses') || request()->is('courses/*') ? 'text-info' : '' }}"></i> 
+					Courses</a>
+				</li>
+				<li class="{{ request()->is('departments') || request()->is('departments/*') ? 'active' : '' }}">
+					<a href="/departments">
+						<i class="fa-solid fa-building mr-4 {{ request()->is('departments') || request()->is('departments/*') ? 'text-info' : '' }}"></i> 
+					Departments</a>
+				</li>
+			@endhasanyrole
 			<li>
 				<a href="#" class="nav-link" onclick="document.getElementById('logout__form').submit()">
-					<p><i class="fas fa-sign-out-alt mr-3 text-light"></i>Logout</p>
+					<p><i class="fa-solid fa-arrow-right-from-bracket mr-4"></i>Logout</p>
 					<form action="{{ route('logout') }}" method="POST" id="logout__form">
 						@csrf
 					</form>
