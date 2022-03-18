@@ -15,9 +15,10 @@ class Registrar extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
+        'department_id',
         'first_name',
         'last_name',
-        'department',
         'birthed_at'
     ];
 }
