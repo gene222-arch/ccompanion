@@ -36,7 +36,7 @@
                         <td>
                             <a 
                                 class="select-to-edit" 
-                                href="{{ route('registrars.edit', $registrar->id) }}"
+                                href="{{ route('registrars.edit', $registrar->registrar->id) }}"
                                 data-toggle="tooltip" 
                                 data-placement="right" 
                                 title="Edit selected registrar"

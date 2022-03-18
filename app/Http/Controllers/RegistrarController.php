@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Registrar\StoreRequest;
+use App\Http\Requests\Registrar\UpdateRequest;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Registrar;
@@ -61,7 +62,7 @@ class RegistrarController extends Controller
                 ])
             : Redirect::route('registrars.index')
                 ->with([
-                    'successMessage' => 'Create registrar failed'
+                    'successMessage' => 'Create registrar failed.'
                 ]);
     }
 
@@ -84,19 +85,41 @@ class RegistrarController extends Controller
      */
     public function edit(Registrar $registrar)
     {
-        //
+        return view('app.registrar.edit', [
+            'departments' => Department::all(),
+            'registrar' => Registrar::with('user')->find($registrar->id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Registrar\UpdateRequest  $request
      * @param  \App\Models\Registrar  $registrar
+     * @param  \App\Services\RegistrarService  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Registrar $registrar)
+    public function update(UpdateRequest $request, Registrar $registrar, RegistrarService $service)
     {
-        //
+        $result = $service->update(
+            $registrar,
+            $request->first_name,
+            $request->last_name,
+            $request->birthed_at,
+            $request->department_id,
+            $request->email,
+            $request->password
+        );
+
+        return gettype($result) !== 'string'
+            ? Redirect::route('registrars.index')
+                ->with([
+                    'successMessage' => $registrar->first_name . ' updated successfully.'
+                ])
+            : Redirect::route('registrars.index')
+                ->with([
+                    'successMessage' => 'Create update failed.'
+                ]);
     }
 
     /**

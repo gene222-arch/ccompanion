@@ -1,6 +1,7 @@
 <?php 
 namespace App\Services;
 
+use App\Models\Registrar;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -39,6 +40,50 @@ class RegistrarService
 
                 $user->registrar()
                     ->create([
+                        'department_id' => $departmentID,
+                        'first_name' => $firstName,
+                        'last_name' => $lastName,
+                        'birthed_at' => $birthedAt
+                    ]);
+            });
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+
+        return true;
+    }
+
+    public function update(
+        Registrar $registrar,
+        string $firstName, 
+        string $lastName, 
+        string $birthedAt, 
+        int $departmentID,
+        string $email,
+        string $password
+    ): bool|string
+    {
+        try {
+            DB::transaction(function () use (
+                $registrar,
+                $firstName,
+                $lastName,
+                $birthedAt,
+                $departmentID,
+                $email,
+                $password,
+            ) 
+            {
+                $userData = [
+                    'name' => "{$firstName} {$lastName}",
+                    'email' => $email,
+                    'password' => Hash::make($password)
+                ];
+
+                $registrar->user()->update($userData);
+
+                $registrar
+                    ->update([
                         'department_id' => $departmentID,
                         'first_name' => $firstName,
                         'last_name' => $lastName,
