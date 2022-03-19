@@ -9,6 +9,9 @@
                     <form action="{{ route('departments.store') }}" method="post">
                         @csrf
                        <div class="row">
+                           <div class="col-12 text-center py-4">
+                                <i class="fa-solid fa-building fa-2x text-info"></i>
+                           </div>
                            <div class="col-12">
                                 <div class="form-group">
                                     <label for="name">Name</label>

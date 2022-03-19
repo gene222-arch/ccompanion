@@ -8,7 +8,7 @@
                 @csrf
                <div class="row">
                    <div class="col-12 text-center">
-                        <i class="fa-solid fa-user-shield text-secondary fa-3x p-4"></i>
+                        <i class="fa-solid fa-user-shield text-info fa-3x p-4"></i>
                    </div>
                    <div class="col-12">
                         <div class="form-group">
