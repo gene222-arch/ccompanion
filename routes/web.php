@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\SubjectController;
@@ -21,15 +22,13 @@ use App\Http\Controllers\SubjectController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PageController::class, 'welcome']);
 
 Auth::routes([
     'register' => false
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('guest');
 
 Route::middleware('auth')->group(function ()
 {
