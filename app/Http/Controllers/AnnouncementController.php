@@ -87,19 +87,48 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        //
+        return view('app.announcement.edit', [
+            'announcement' => $announcement
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AnnouncementRequest  $request
      * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Announcement $announcement)
+    public function update(AnnouncementRequest $request, Announcement $announcement)
     {
-        //
+        $announcementHeader = $announcement->header;
+        $path = $announcement->image_path;
+
+        if ($request->hasFile('image'))
+        {
+            $image = $request->file('image');
+            
+            $origName = $image->getClientOriginalName();
+            $imageName = pathinfo($origName, PATHINFO_FILENAME);
+            $ext = $image->extension();
+
+            $newFileName = $imageName . '-' . time() . ".{$ext}";
+
+            $image->storePubliclyAs('public/announcement-images/', $newFileName);
+            $path = "announcement-images/{$newFileName}";
+        }
+
+        $data = array_merge($request->validated(), [
+            'user_id' => auth()->id(),
+            'image_path' => $path
+        ]);
+        
+        $announcement->update($data);
+
+        return Redirect::route('announcements.index')
+            ->with([
+                'successMessage' => $announcementHeader . ' updated successfully.'
+            ]);
     }
 
     /**
