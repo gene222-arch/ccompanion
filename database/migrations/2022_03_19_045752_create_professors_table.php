@@ -1,0 +1,53 @@
+<?php
+
+use App\Models\Department;
+use App\Models\Professor;
+use App\Models\Subject;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('professors', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Department::class)->constrained();
+            $table->string('prefix');
+            $table->string('employment_type');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->timestamp('birthed_at');
+            $table->timestamp('deleted_at')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('professor_subject', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Professor::class)->constrained();
+            $table->foreignIdFor(Subject::class)->constrained();
+
+            $table->unique([
+                'professor_id',
+                'subject_id'
+            ]);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('professor_subject');
+        Schema::dropIfExists('professors');
+    }
+};
