@@ -37,11 +37,16 @@
 						<i class="fa-solid fa-building mr-4 {{ request()->is('departments') || request()->is('departments/*') ? 'text-info' : '' }}"></i> 
 					Departments</a>
 				</li>
+				<li class="{{ request()->is('subjects') || request()->is('subjects/*') ? 'active' : '' }}">
+					<a href="/subjects">
+						<i class="fa-solid fa-book mr-4 {{ request()->is('subjects') || request()->is('subjects/*') ? 'text-info' : '' }}"></i> 
+					Subjects</a>
+				</li>
 			@endhasanyrole
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
 					<a href="/registrars">
-						<i class="fa-solid fa-user-tie mr-3 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
+						<i class="fa-solid fa-user-tie mr-4 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
 					Registrars</a>
 				</li>
 			@endhasanyrole
