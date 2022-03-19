@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\ProfessorService;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Professor\StoreRequest;
+use App\Http\Requests\Professor\UpdateRequest;
 
 class ProfessorController extends Controller
 {
@@ -86,19 +87,46 @@ class ProfessorController extends Controller
      */
     public function edit(Professor $professor)
     {
-        //
+        return view('app.professor.edit', [
+            'departments' => Department::all(),
+            'professor' => $professor,
+            'professorSubjects' => $professor->subjects->map->id->toArray(),
+            'subjects' => Subject::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Professor\UpdateRequest  $request
      * @param  \App\Models\Professor  $professor
+     * @param  \App\Services\ProfessorService  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Professor $professor)
+    public function update(UpdateRequest $request, Professor $professor, ProfessorService $service)
     {
-        //
+        $professorName = $professor->name();
+
+        $result = $service->update(
+            $professor,
+            $request->department_id,
+            $request->prefix,
+            $request->employment_type,
+            $request->first_name,
+            $request->last_name,
+            $request->birthed_at,
+            $request->subject_ids
+        );
+
+        return (gettype($result) !== 'string')
+            ? Redirect::route('professors.index')
+                ->with([
+                    'successMessage' => $professorName . ' updated successfully.'
+                ])
+            : Redirect::route('professors.index')
+                ->with([
+                    'successMessage' => 'Professor updated failed.'
+                ]);
     }
 
     /**
