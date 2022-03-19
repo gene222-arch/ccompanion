@@ -9,6 +9,9 @@
                     <form action="{{ route('courses.store') }}" method="post">
                         @csrf
                        <div class="row">
+                           <div class="col-12 text-center py-4">
+                                <i class="fa-solid fa-graduation-cap text-info fa-2x"></i>
+                           </div>
                            <div class="col-12">
                                 <div class="form-group">
                                     <label for="name">Name</label>
