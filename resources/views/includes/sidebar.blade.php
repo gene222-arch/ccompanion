@@ -26,6 +26,13 @@
 					Administrators</a>
 				</li>
 			@endhasrole
+			@hasanyrole('Super Administrator|Administrator')
+				<li class="{{ request()->is('announcements') || request()->is('announcements/*') ? 'active' : '' }}">
+					<a href="/announcements">
+						<i class="fa-solid fa-newspaper mr-3 {{ request()->is('announcements') || request()->is('announcements/*') ? 'text-info' : '' }}"></i> 
+					Announcements</a>
+				</li>
+			@endhasanyrole
 			@hasanyrole('Super Administrator|Administrator|Registrar')
 				<li class="{{ request()->is('courses') || request()->is('courses/*') ? 'active' : '' }}">
 					<a href="/courses">
@@ -44,7 +51,7 @@
 				</li>
 				<li class="{{ request()->is('professors') || request()->is('professors/*') ? 'active' : '' }}">
 					<a href="/professors">
-						<i class="fa-solid fa-chalkboard-user mr-4 {{ request()->is('professors') || request()->is('professors/*') ? 'text-info' : '' }}"></i> 
+						<i class="fa-solid fa-chalkboard-user mr-3 {{ request()->is('professors') || request()->is('professors/*') ? 'text-info' : '' }}"></i> 
 					Professors</a>
 				</li>
 			@endhasanyrole

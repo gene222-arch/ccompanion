@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfessorController;
@@ -32,6 +33,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware('auth')->group(function ()
 {
+    Route::resource('announcements', AnnouncementController::class);
+    Route::get('/enable/{announcement}', [AnnouncementController::class, 'toggleEnable'])->name('announcements.enabled');
     Route::resource('administrators', AdminController::class);
     Route::resource('courses', CourseController::class);
     Route::resource('departments', DepartmentController::class);
