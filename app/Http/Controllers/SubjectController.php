@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Subject\StoreRequest;
+use App\Http\Requests\Subject\UpdateRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -66,19 +67,27 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        return view('app.subject.edit', [
+            'subject' => $subject
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Subject\UpdateRequest  $request
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(UpdateRequest $request, Subject $subject)
     {
-        //
+        $subjectName = $subject->name;
+        $subject->update($request->validated());
+
+        return Redirect::route('subjects.index')
+            ->with([
+                'successMessage' => $subjectName . ' updated successfully.'
+            ]);
     }
 
     /**
