@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\Professor;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Services\ProfessorService;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Professor\StoreRequest;
 
 class ProfessorController extends Controller
 {
@@ -27,18 +31,40 @@ class ProfessorController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.professor.create', [
+            'departments' => Department::all(),
+            'subjects' => Subject::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Professor\StoreRequest  $request
+     * @param  \App\Services\ProfessorService  $service
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, ProfessorService $service)
     {
-        //
+        $result = $service->create(
+            $request->department_id,
+            $request->prefix,
+            $request->employment_type,
+            $request->first_name,
+            $request->last_name,
+            $request->birthed_at,
+            $request->subject_ids
+        );
+
+        return (gettype($result) !== 'string')
+            ? Redirect::route('professors.index')
+                ->with([
+                    'successMessage' => 'Professor created successfully.'
+                ])
+            : Redirect::route('professors.index')
+                ->with([
+                    'successMessage' => 'Create professor failed.'
+                ]);
     }
 
     /**
