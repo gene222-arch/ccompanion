@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Subject\StoreRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -27,18 +28,23 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.subject.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Subject\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        Subject::create($request->validated());
+
+        return Redirect::route('subjects.index')
+            ->with([
+                'successMessage' => 'Subject created successfully.'
+            ]);
     }
 
     /**
