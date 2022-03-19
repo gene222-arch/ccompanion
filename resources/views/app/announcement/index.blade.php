@@ -29,14 +29,14 @@
                     <th>Subheader</th>
                     <th>Body</th>
                     <th>Status</th>
-                    <th colspan="2">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($announcements as $announcement)
                     <tr>
                         <td>
-                            <img src="{{ $announcement->image_path }}" alt="{{ $announcement->header }}" width="100" height="100">
+                            <img src="{{ asset('storage/' . $announcement->image_path) }}" alt="{{ $announcement->header }}" width="100" height="100">
                         </td>
                         <td>
                             <a
@@ -50,7 +50,7 @@
                             </a>
                         </td>
                         <td>{{ $announcement->subheader }}</td>
-                        <td>{{ $announcement->body }}</td>
+                        <td>{!! Str::of($announcement->body)->limit(30) !!}</td>
                         <td>
                             <span 
                                 @class([

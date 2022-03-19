@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -27,18 +28,44 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.announcement.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AnnouncementRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnnouncementRequest $request)
     {
-        //
+        $path = '';
+
+        if ($request->hasFile('image'))
+        {
+            $image = $request->file('image');
+            
+            $origName = $image->getClientOriginalName();
+            $imageName = pathinfo($origName, PATHINFO_FILENAME);
+            $ext = $image->extension();
+
+            $newFileName = $imageName . '-' . time() . ".{$ext}";
+
+            $image->storePubliclyAs('public/announcement-images/', $newFileName);
+            $path = "announcement-images/{$newFileName}";
+        }
+
+        $data = array_merge($request->validated(), [
+            'user_id' => auth()->id(),
+            'image_path' => $path
+        ]);
+        
+        Announcement::create($data);
+
+        return Redirect::route('announcements.index')
+            ->with([
+                'successMessage' => 'Announcement created successfully.'
+            ]);
     }
 
     /**
