@@ -57,6 +57,8 @@ class StudentService
                     'birthed_at' => $birthedAt
                 ]);
 
+                $student->semester()->create();
+
                 $user->notify(
                     new MailStudentNotification($password)
                 );
