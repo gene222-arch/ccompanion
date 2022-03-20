@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Schedule;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Services\ScheduleService;
+use App\Http\Requests\ScheduleRequest;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Redis;
 
 class ScheduleController extends Controller
 {
@@ -35,18 +40,31 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.schedule.create', [
+            'departments' => Department::all(['id', 'name']),
+            'courses' => Course::all(['id', 'name'])
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ScheduleRequest  $request
+     * @param  \App\Services\ScheduleService  $service
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ScheduleRequest $request, ScheduleService $service)
     {
-        //
+        $data = array_merge($request->validated(), [
+            'code' => $service->scheduleCode($request->course_id)
+        ]);
+
+        Schedule::create($data);
+
+        return Redirect::route('schedules.index')
+            ->with([
+                'successMessage' => 'Schedule created successfully.'
+            ]);
     }
 
     /**
