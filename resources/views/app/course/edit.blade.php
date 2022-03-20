@@ -14,6 +14,24 @@
                                 <i class="fa-solid fa-graduation-cap text-info fa-2x"></i>
                             </div>
                             <div class="col-12">
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input 
+                                        id="code" 
+                                        type="text" 
+                                        class="form-control @error('code') is-invalid @enderror" 
+                                        placeholder="Enter code" 
+                                        name="code"
+                                        value="{{ old('code', $course->code) }}"
+                                    >
+                                    @error('code')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12">
                                     <div class="form-group">
                                         <input type="hidden" name="course_id" value="{{ $course->id }}">
                                         <label for="name">Name</label>

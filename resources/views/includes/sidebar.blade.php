@@ -44,6 +44,11 @@
 						<i class="fa-solid fa-building mr-4 {{ request()->is('departments') || request()->is('departments/*') ? 'text-info' : '' }}"></i> 
 					Departments</a>
 				</li>
+				<li class="{{ request()->is('schedules') || request()->is('schedules/*') ? 'active' : '' }}">
+					<a href="/schedules">
+						<i class="fa-solid fa-calendar-day mr-4 {{ request()->is('schedules') || request()->is('schedules/*') ? 'text-info' : '' }}"></i> 
+					Schedules</a>
+				</li>
 				<li class="{{ request()->is('subjects') || request()->is('subjects/*') ? 'active' : '' }}">
 					<a href="/subjects">
 						<i class="fa-solid fa-book mr-4 {{ request()->is('subjects') || request()->is('subjects/*') ? 'text-info' : '' }}"></i> 
