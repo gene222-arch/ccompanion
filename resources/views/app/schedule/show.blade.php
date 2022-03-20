@@ -38,7 +38,7 @@
                                         <option value="0">Select subject</option>
                                         @foreach ($subjects as $subject)
                                             <option 
-                                                {{ old('subject_id', 0) == $subject->id ? 'selected' : '' }}
+                                                {{ old('subject_id') == $subject->id ? 'selected' : '' }}
                                                 value="{{ $subject->id }}"
                                             >
                                                 {{ $subject->name }}
@@ -63,7 +63,7 @@
                                         <option value="0">Select professor</option>
                                         @foreach ($professors as $professor)
                                             <option 
-                                                {{ old('professor_id', 0) == $professor->id ? 'selected' : '' }}
+                                                {{ old('professor_id') == $professor->id ? 'selected' : '' }}
                                                 value="{{ $professor->id }}"
                                             >
                                                 {{ $professor->name() }}

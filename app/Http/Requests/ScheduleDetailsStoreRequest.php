@@ -31,4 +31,12 @@ class ScheduleDetailsStoreRequest extends FormRequest
             'to' => ['required', 'after:from']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'subject_id.exists' => 'The selected subject is invalid',
+            'professor_id.exists' => 'The selected subject is invalid'
+        ];
+    }
 }
