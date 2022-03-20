@@ -177,7 +177,7 @@
                             <strong>Year Level</strong>
                         </div>
                         <div class="col text-secondary">
-                            {{ $schedule->day }}
+                            {{ $schedule->year_level }}
                         </div>
                     </div>
                     <div class="row">
