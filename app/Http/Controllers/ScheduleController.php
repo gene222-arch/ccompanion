@@ -86,19 +86,33 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        //
+        return view('app.schedule.edit', [
+            'departments' => Department::all(['id', 'name']),
+            'courses' => Course::all(['id', 'name']),
+            'schedule' => $schedule
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ScheduleRequest  $request
      * @param  \App\Models\Schedule  $schedule
+     * @param  \App\Services\ScheduleService  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(ScheduleRequest $request, Schedule $schedule, ScheduleService $service)
     {
-        //
+        $data = array_merge($request->validated(), [
+            'code' => $service->scheduleCode($request->course_id)
+        ]);
+
+        $schedule->update($data);
+
+        return Redirect::route('schedules.index')
+            ->with([
+                'successMessage' => $schedule->code .  ' updated successfully.'
+            ]);
     }
 
     /**
