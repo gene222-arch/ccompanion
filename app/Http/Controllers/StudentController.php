@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use App\Services\StudentService;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Student\StoreRequest;
+use App\Models\Course;
+use App\Models\Department;
 
 class StudentController extends Controller
 {
@@ -28,18 +32,41 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.student.create', [
+            'courses' => Course::all(['id', 'name']),
+            'departments' => Department::all((['id', 'name']))
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Student\StoreRequest  $request
+     * @param  \App\Services\StudentService  $service
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, StudentService $service)
     {
-        //
+        $result = $service->create(
+            $request->first_name,
+            $request->last_name,
+            $request->email,
+            $request->course_id,
+            $request->department_id,
+            $request->guardian,
+            $request->contact_number,
+            $request->birthed_at
+        );
+
+        return gettype($result) !== 'string'
+            ? Redirect::route('registrars.index')
+                ->with([
+                    'successMessage' => 'Student created successfully.'
+                ])
+            : Redirect::route('registrars.index')
+                ->with([
+                    'successMessage' => 'Create student failed.'
+                ]);
     }
 
     /**

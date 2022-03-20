@@ -118,7 +118,7 @@ class RegistrarController extends Controller
                 ])
             : Redirect::route('registrars.index')
                 ->with([
-                    'successMessage' => 'Create update failed.'
+                    'successMessage' => 'Registrar update failed.'
                 ]);
     }
 
