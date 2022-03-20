@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,6 +23,7 @@ class StudentFactory extends Factory
 
         return [
             'student_id' => Carbon::now()->format('Y') . "-{$id}",
+            'course_id' => Course::all()->random(1)->first()->id,
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'guardian' => $this->faker->name(),

@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Registrar::class);
     }
+
+    public function student(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
 }

@@ -49,6 +49,11 @@
 						<i class="fa-solid fa-book mr-4 {{ request()->is('subjects') || request()->is('subjects/*') ? 'text-info' : '' }}"></i> 
 					Subjects</a>
 				</li>
+				<li class="{{ request()->is('students') || request()->is('students/*') ? 'active' : '' }}">
+					<a href="/students">
+						<i class="fa-solid fa-user mr-4 {{ request()->is('students') || request()->is('students/*') ? 'text-info' : '' }}"></i> 
+					Students</a>
+				</li>
 				<li class="{{ request()->is('professors') || request()->is('professors/*') ? 'active' : '' }}">
 					<a href="/professors">
 						<i class="fa-solid fa-chalkboard-user mr-3 {{ request()->is('professors') || request()->is('professors/*') ? 'text-info' : '' }}"></i> 
