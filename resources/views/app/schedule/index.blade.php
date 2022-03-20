@@ -28,6 +28,7 @@
                     <th>Department</th>
                     <th>Course</th>
                     <th>Subjects</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -49,47 +50,107 @@
                         <td>{{ $schedule->course->name }}</td>
                         <td>{{ $schedule->details_count }}</td>
                         <td>
+                            <span 
+                                @class([
+                                    'badge',
+                                    'badge-success' => $schedule->is_finalized,
+                                    'badge-info' => !$schedule->is_finalized
+                                ])
+                            >
+                                {{ !$schedule->is_finalized ? 'In Progress' : 'Finalized' }}
+                            </span>
+                        </td>
+                        <td>
                             <div class="row align-items-center">
-                                <div class="col">
-                                    <div 
+                                @if (! $schedule->is_finalized)
+                                    <div class="col">
+                                        <div 
                                         class="form-group my-2" 
                                         data-toggle="tooltip" 
                                         data-placement="right" 
                                         title="Delete"
-                                    >
+                                        >
                                         <button 
                                             type="submit" 
-                                            class="btn btn-danger"
+                                            class="btn btn-warning"
                                             data-toggle="modal" 
-                                            data-target="#schedule{{ $schedule->id }}"
+                                            data-target="#scheduleFinalized{{ $schedule->id }}"
                                         >
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fa-solid fa-floppy-disk"></i>
                                         </button>
-                                    </div>
-                                    <div class="modal fade" id="schedule{{ $schedule->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        </div>
+                                        <div class="modal fade" id="scheduleFinalized{{ $schedule->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Finalize</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Delete selected schedule named <i class="text-danger">{{ $schedule->name }}</i>
+                                                    Finalize selected schedule?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                                                    <form action="{{ route('schedules.destroy', $schedule->id) }}" method="post">
+                                                    <form action="{{ route('schedules.finalize', $schedule->id) }}" method="post">
                                                         @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-warning">Continue</button>
+                                                        @method('PUT')
+                                                        <button 
+                                                            class="btn btn-warning"
+                                                            data-toggle="tooltip" 
+                                                            data-placement="right" 
+                                                            title="Finalize"
+                                                        >
+                                                            Continue
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col">
+                                        <div 
+                                            class="form-group my-2" 
+                                            data-toggle="tooltip" 
+                                            data-placement="right" 
+                                            title="Delete"
+                                        >
+                                            <button 
+                                                type="submit" 
+                                                class="btn btn-danger"
+                                                data-toggle="modal" 
+                                                data-target="#schedule{{ $schedule->id }}"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal fade" id="schedule{{ $schedule->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Delete selected schedule named <i class="text-danger">{{ $schedule->name }}</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                                        <form action="{{ route('schedules.destroy', $schedule->id) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-warning">Continue</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="col">
                                     <a 
                                         href="{{ route('schedules.show', $schedule->id) }}"

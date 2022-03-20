@@ -19,7 +19,8 @@ class Schedule extends Model
         'department_id',
         'course_id',
         'semester_type',
-        'year_level'
+        'year_level',
+        'is_finalized'
     ];
 
     public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -177,6 +177,24 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Store a newly created resource of schedule details in storage.
+     *
+     * @param  \App\Models\Schedule  $schedule
+     * @return \Illuminate\Http\Response
+     */
+    public function finalize(Schedule $schedule)
+    {
+        $schedule->update([
+            'is_finalized' => true
+        ]);
+
+        return Redirect::route('schedules.index')
+            ->with([
+                'successMessage' => "{$schedule->code} finalized successfully."
+            ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Schedule  $schedule

@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function ()
     Route::resource('departments', DepartmentController::class);
     Route::resource('professors', ProfessorController::class);
     Route::resource('schedules', ScheduleController::class);
+    Route::put('schedules/finalized/{schedule}', [ScheduleController::class, 'finalize'])->name('schedules.finalize');
     Route::prefix('schedule/details')->group(function ()
     {
         Route::post('/{schedule}', [ScheduleController::class, 'storeDetails'])->name('schedules.store.details');
