@@ -9,12 +9,13 @@
     @if (! $errors->isEmpty())
         <div class="alert alert-danger" role="alert">
         Add new schedule failed, please fix the error!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close close-modal-btn" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
     @endif
-    <div style="display: {{ !$errors->isEmpty() ? 'block' : 'none' }}" class="modal fade {{ !$errors->isEmpty() ? 'show' : '' }}" id="createSchedule" tabindex="-1" role="dialog" aria-labelledby="createScheduleTitle" aria-hidden="true">
+    <div 
+        style="display: {{ !$errors->isEmpty() ? 'block' : 'none' }}" class="modal fade {{ !$errors->isEmpty() ? 'show' : '' }}" id="createSchedule" tabindex="-1" role="dialog" aria-labelledby="createScheduleTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="{{ route('schedules.store.details', $schedule->id) }}" method="post">
@@ -34,6 +35,7 @@
                                         class="form-control custom-select @error('subject_id') is-invalid @enderror" 
                                         id="subject" 
                                         name="subject_id"
+                                        required
                                     >
                                         <option value="0">Select subject</option>
                                         @foreach ($subjects as $subject)
@@ -59,6 +61,7 @@
                                         class="form-control custom-select @error('professor_id') is-invalid @enderror" 
                                         id="professor" 
                                         name="professor_id"
+                                        required
                                     >
                                         <option value="0">Select professor</option>
                                         @foreach ($professors as $professor)
@@ -84,6 +87,7 @@
                                         class="form-control custom-select @error('day') is-invalid @enderror" 
                                         id="day" 
                                         name="day"
+                                        required
                                     >
                                         <option value="0">Select Day</option>
                                         @foreach ([
@@ -119,6 +123,7 @@
                                         placeholder="Enter From" 
                                         name="from"
                                         value="{{ old('from') }}"
+                                        required
                                     >
                                     @error('from')
                                         <div class="invalid-feedback">
@@ -137,6 +142,7 @@
                                         placeholder="Enter To" 
                                         name="to"
                                         value="{{ old('to') }}"
+                                        required
                                     >
                                     @error('to')
                                         <div class="invalid-feedback">
