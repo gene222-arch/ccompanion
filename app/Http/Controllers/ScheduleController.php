@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ScheduleDetailsStoreRequest;
+use App\Http\Requests\ScheduleDetailsRequest;
 use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Department;
@@ -78,7 +78,7 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function storeDetails(ScheduleDetailsStoreRequest $request, Schedule $schedule)
+    public function storeDetails(ScheduleDetailsRequest $request, Schedule $schedule)
     {
         $schedule->details()->create($request->validated());
 
@@ -156,6 +156,26 @@ class ScheduleController extends Controller
             ]);
     }
 
+  /**
+     * Store a newly created resource of schedule details in storage.
+     *
+     * @param  \App\Http\Requests\ScheduleRequest  $request
+     * @param  \App\Models\Schedule  $schedule
+     * @param  \App\Models\ScheduleDetail  $scheduleDetail
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDetails(ScheduleDetailsRequest $request, Schedule $schedule, ScheduleDetail $scheduleDetail)
+    {
+        $schedule->details()
+            ->find($scheduleDetail->id)
+            ->update($request->validated());
+
+        return Redirect::route('schedules.show', $schedule->id)
+            ->with([
+                'successMessage' => 'Schedule added successfully.'
+            ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -170,6 +190,17 @@ class ScheduleController extends Controller
         return Redirect::route('schedules.index')
             ->with([
                 'successMessage' => "{$code} deleted successfully."
+            ]);
+    }
+
+    public function destroyDetail(ScheduleDetail $scheduleDetail)
+    {
+        $id = $scheduleDetail->schedule_id;
+        $scheduleDetail->delete();
+
+        return Redirect::route('schedules.show', $id)
+            ->with([
+                'successMessage' => 'Schedule deleted successfully.'
             ]);
     }
 }

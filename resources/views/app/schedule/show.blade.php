@@ -219,6 +219,7 @@
                         <th scope="col">Day</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -229,6 +230,196 @@
                             <td>{{ $detail->day }}</td>
                             <td>{{ $detail->from }}</td>
                             <td>{{ $detail->to }}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateSchedule{{ $detail->id }}">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                </button>
+                                <div  class="modal fade" id="updateSchedule{{ $detail->id }}" tabindex="-1" role="dialog" aria-labelledby="updateScheduleTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <form action="{{ route('schedules.update.details', [$detail->schedule_id, $detail->id]) }}" method="post">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Update schedule</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="subject">Subject</label>
+                                                                <select 
+                                                                    class="form-control custom-select @error('subject_id') is-invalid @enderror" 
+                                                                    id="subject" 
+                                                                    name="subject_id"
+                                                                    required
+                                                                >
+                                                                    <option value="0">Select subject</option>
+                                                                    @foreach ($subjects as $subject)
+                                                                        <option 
+                                                                            {{ old('subject_id', $detail->subject_id) == $subject->id ? 'selected' : '' }}
+                                                                            value="{{ $subject->id }}"
+                                                                        >
+                                                                            {{ $subject->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('subject_id')
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="professor">Professor</label>
+                                                                <select 
+                                                                    class="form-control custom-select @error('professor_id') is-invalid @enderror" 
+                                                                    id="professor" 
+                                                                    name="professor_id"
+                                                                    required
+                                                                >
+                                                                    <option value="0">Select professor</option>
+                                                                    @foreach ($professors as $professor)
+                                                                        <option 
+                                                                            {{ old('professor_id', $detail->professor_id) == $professor->id ? 'selected' : '' }}
+                                                                            value="{{ $professor->id }}"
+                                                                        >
+                                                                            {{ $professor->name() }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('professor_id')
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="day">Day</label>
+                                                                <select 
+                                                                    class="form-control custom-select @error('day') is-invalid @enderror" 
+                                                                    id="day" 
+                                                                    name="day"
+                                                                    required
+                                                                >
+                                                                    <option value="0">Select Day</option>
+                                                                    @foreach ([
+                                                                        'Monday',
+                                                                        'Tuesday',
+                                                                        'Wednesday',
+                                                                        'Thursday',
+                                                                        'Friday',
+                                                                        'Saturday'
+                                                                    ] as $day)
+                                                                        <option 
+                                                                            {{ old('day', $detail->day) == $day ? 'selected' : '' }}
+                                                                            value="{{ $day }}"
+                                                                        >
+                                                                            {{ $day }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('day')
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="from">From</label>
+                                                                <input 
+                                                                    id="from" 
+                                                                    type="time" 
+                                                                    class="form-control @error('from') is-invalid @enderror" 
+                                                                    placeholder="Enter From" 
+                                                                    name="from"
+                                                                    value="{{ old('from', $detail->from) }}"
+                                                                    required
+                                                                >
+                                                                @error('from')
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="to">To</label>
+                                                                <input 
+                                                                    id="to" 
+                                                                    type="time" 
+                                                                    class="form-control @error('to') is-invalid @enderror" 
+                                                                    placeholder="Enter To" 
+                                                                    name="to"
+                                                                    value="{{ old('to', $detail->to) }}"
+                                                                    required
+                                                                >
+                                                                @error('to')
+                                                                    <div class="invalid-feedback">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div 
+                                    class="form-group my-2" 
+                                    data-toggle="tooltip" 
+                                    data-placement="right" 
+                                    title="Delete"
+                                >
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-danger"
+                                        data-toggle="modal" 
+                                        data-target="#detail{{ $detail->id }}"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="detail{{ $detail->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Delete selected schedule?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                                <form action="{{ route('schedules.destroy.details', $detail->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-warning">Continue</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
