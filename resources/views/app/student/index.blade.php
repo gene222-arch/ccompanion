@@ -72,7 +72,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Delete selected student named <i class="text-danger">{{ $student->name }}</i>
+                                            Delete selected student named <i class="text-danger">{{ $student->user->name }}</i>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
