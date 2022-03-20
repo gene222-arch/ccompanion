@@ -8,6 +8,7 @@ use App\Services\StudentService;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Student\StoreRequest;
+use App\Http\Requests\Student\UpdateRequest;
 use App\Models\Course;
 use App\Models\Department;
 
@@ -59,11 +60,11 @@ class StudentController extends Controller
         );
 
         return gettype($result) !== 'string'
-            ? Redirect::route('registrars.index')
+            ? Redirect::route('students.index')
                 ->with([
                     'successMessage' => 'Student created successfully.'
                 ])
-            : Redirect::route('registrars.index')
+            : Redirect::route('students.index')
                 ->with([
                     'successMessage' => 'Create student failed.'
                 ]);
@@ -88,19 +89,46 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        return view('app.student.edit', [
+            'courses' => Course::all(['id', 'name']),
+            'departments' => Department::all((['id', 'name'])),
+            'student' => $student
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Student\UpdateRequest  $request
      * @param  \App\Models\Student  $student
+     * @param  \App\Services\StudentService  $service 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(UpdateRequest $request, Student $student, StudentService $service )
     {
-        //
+        $studentName = $student->first_name;
+
+        $result = $service->update(
+            $student,
+            $request->first_name,
+            $request->last_name,
+            $request->email,
+            $request->course_id,
+            $request->department_id,
+            $request->guardian,
+            $request->contact_number,
+            $request->birthed_at
+        );
+
+        return gettype($result) !== 'string'
+            ? Redirect::route('students.index')
+                ->with([
+                    'successMessage' => "{$studentName} updated successfully."
+                ])
+            : Redirect::route('students.index')
+                ->with([
+                    'successMessage' => 'Student update failed.'
+                ]);
     }
 
     /**

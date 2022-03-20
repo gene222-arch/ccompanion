@@ -68,6 +68,54 @@ class StudentService
         return true;
     }
 
+    public function update(
+        Student $student,
+        string $firstName,
+        string $lastName,
+        string $email,
+        int $courseID,
+        int $departmentID,
+        string $guardian,
+        string $contactNumber,
+        string $birthedAt
+    ): bool|string 
+    {
+        try {
+            DB::transaction(function () 
+                use (
+                    $student,
+                    $firstName,
+                    $lastName,
+                    $email,
+                    $courseID,
+                    $departmentID,
+                    $guardian,
+                    $contactNumber,
+                    $birthedAt,
+                )
+            {
+                $student->user()->update([
+                    'name' => "{$firstName} {$lastName}",
+                    'email' => $email,
+                ]);
+                
+                $student->update([
+                    'course_id' => $courseID,
+                    'department_id' => $departmentID,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'guardian' => $guardian,
+                    'contact_number' => $contactNumber,
+                    'birthed_at' => $birthedAt
+                ]);
+            });
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+
+        return true;
+    }
+    
     public function studentID(): string
     {
         $id = Student::all()->last()->id + 1;
