@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Subject;
+use App\Models\Professor;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ScheduleDetail extends Model
 {
@@ -17,4 +19,17 @@ class ScheduleDetail extends Model
         'from',
         'to'
     ];
+
+    public $timestamps = false;
+
+    public function professor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Professor::class);
+    }
+
+
+    public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

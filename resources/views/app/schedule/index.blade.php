@@ -49,42 +49,56 @@
                         <td>{{ $schedule->course->name }}</td>
                         <td>{{ $schedule->details_count }}</td>
                         <td>
-                            <div 
-                                class="form-group my-2" 
-                                data-toggle="tooltip" 
-                                data-placement="right" 
-                                title="Delete"
-                            >
-                                <button 
-                                    type="submit" 
-                                    class="btn btn-danger"
-                                    data-toggle="modal" 
-                                    data-target="#schedule{{ $schedule->id }}"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                            <div class="modal fade" id="schedule{{ $schedule->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Delete selected schedule named <i class="text-danger">{{ $schedule->name }}</i>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                                            <form action="{{ route('schedules.destroy', $schedule->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-warning">Continue</button>
-                                            </form>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div 
+                                        class="form-group my-2" 
+                                        data-toggle="tooltip" 
+                                        data-placement="right" 
+                                        title="Delete"
+                                    >
+                                        <button 
+                                            type="submit" 
+                                            class="btn btn-danger"
+                                            data-toggle="modal" 
+                                            data-target="#schedule{{ $schedule->id }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal fade" id="schedule{{ $schedule->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Delete selected schedule named <i class="text-danger">{{ $schedule->name }}</i>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                                    <form action="{{ route('schedules.destroy', $schedule->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-warning">Continue</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col">
+                                    <a 
+                                        href="{{ route('schedules.show', $schedule->id) }}"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" 
+                                        title="View More Details"
+                                    >
+                                        <i class="fa-solid fa-eye fa-2x"></i>
+                                    </a>
                                 </div>
                             </div>
                         </td>

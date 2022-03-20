@@ -71,55 +71,55 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="department">Department</label>
-                                        <select 
-                                            class="form-control custom-select @error('department_id') is-invalid @enderror" 
-                                            id="department" 
-                                            name="department_id"
-                                        >
-                                            <option value="0">Select department</option>
-                                            @foreach ($departments as $department)
-                                                <option 
-                                                    {{ old('department_id', 0) == $department->id ? 'selected' : '' }}
-                                                    value="{{ $department->id }}"
-                                                >
-                                                    {{ $department->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('department_id')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
+                                <div class="form-group">
+                                    <label for="department">Department</label>
+                                    <select 
+                                        class="form-control custom-select @error('department_id') is-invalid @enderror" 
+                                        id="department" 
+                                        name="department_id"
+                                    >
+                                        <option value="0">Select department</option>
+                                        @foreach ($departments as $department)
+                                            <option 
+                                                {{ old('department_id', 0) == $department->id ? 'selected' : '' }}
+                                                value="{{ $department->id }}"
+                                            >
+                                                {{ $department->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('department_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="course">Course</label>
-                                        <select 
-                                            class="form-control custom-select @error('course_id') is-invalid @enderror" 
-                                            id="course" 
-                                            name="course_id"
-                                        >
-                                            <option value="0">Select course</option>
-                                            @foreach ($courses as $course)
-                                                <option 
-                                                    {{ old('course_id', 0) == $course->id ? 'selected' : '' }}
-                                                    value="{{ $course->id }}"
-                                                >
-                                                    {{ $course->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('course_id')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="course">Course</label>
+                                    <select 
+                                        class="form-control custom-select @error('course_id') is-invalid @enderror" 
+                                        id="course" 
+                                        name="course_id"
+                                    >
+                                        <option value="0">Select course</option>
+                                        @foreach ($courses as $course)
+                                            <option 
+                                                {{ old('course_id', 0) == $course->id ? 'selected' : '' }}
+                                                value="{{ $course->id }}"
+                                            >
+                                                {{ $course->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('course_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
+                            </div>
                             <div class="col-12 mt-5 text-right">
                                 <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-success">Save</button>

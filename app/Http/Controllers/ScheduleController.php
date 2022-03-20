@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ScheduleDetailsStoreRequest;
 use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Services\ScheduleService;
 use App\Http\Requests\ScheduleRequest;
+use App\Models\Professor;
+use App\Models\ScheduleDetail;
+use App\Models\Subject;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 
@@ -68,6 +72,23 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Store a newly created resource of schedule details in storage.
+     *
+     * @param  \App\Http\Requests\ScheduleRequest  $request
+     * @param  \App\Models\Schedule  $schedule
+     * @return \Illuminate\Http\Response
+     */
+    public function storeDetails(ScheduleDetailsStoreRequest $request, Schedule $schedule)
+    {
+        $schedule->details()->create($request->validated());
+
+        return Redirect::route('schedules.show', $schedule->id)
+            ->with([
+                'successMessage' => 'Schedule added successfully.'
+            ]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Schedule  $schedule
@@ -75,7 +96,27 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        //
+        $details = ScheduleDetail::with([
+            'subject',
+            'professor'
+        ])
+            ->where('schedule_id', $schedule->id)
+            ->get();
+
+        $schedule = Schedule::query()
+            ->with([
+                'course',
+                'department'
+            ])
+            ->withCount('details')
+            ->find($schedule->id);
+
+        return view('app.schedule.show', [
+            'schedule' => $schedule,
+            'details' => $details,
+            'subjects' => Subject::all(['id', 'name']),
+            'professors' => Professor::all()
+        ]);
     }
 
     /**
