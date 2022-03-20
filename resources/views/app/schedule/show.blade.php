@@ -6,7 +6,15 @@
 
 @section('content')
     {{-- Modal --}}
-    <div class="modal fade" id="createSchedule" tabindex="-1" role="dialog" aria-labelledby="createScheduleTitle" aria-hidden="true">
+    @if (! $errors->isEmpty())
+        <div class="alert alert-danger" role="alert">
+        Add new schedule failed, please fix the error!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    @endif
+    <div style="display: {{ !$errors->isEmpty() ? 'block' : 'none' }}" class="modal fade {{ !$errors->isEmpty() ? 'show' : '' }}" id="createSchedule" tabindex="-1" role="dialog" aria-labelledby="createScheduleTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="{{ route('schedules.store.details', $schedule->id) }}" method="post">
