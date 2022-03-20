@@ -63,9 +63,9 @@ class ScheduleController extends Controller
             'code' => $service->scheduleCode($request->course_id)
         ]);
 
-        Schedule::create($data);
+        $schedule = Schedule::create($data);
 
-        return Redirect::route('schedules.index')
+        return Redirect::route('schedules.show', $schedule->id)
             ->with([
                 'successMessage' => 'Schedule created successfully.'
             ]);
