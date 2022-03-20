@@ -9,6 +9,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\RegistrarController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function ()
     Route::resource('courses', CourseController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('professors', ProfessorController::class);
+    Route::resource('schedules', ScheduleController::class);
     Route::resource('students', StudentController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('registrars', RegistrarController::class);
