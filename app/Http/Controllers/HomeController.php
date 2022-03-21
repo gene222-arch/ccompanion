@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data = [
+            'administratorCount' => User::role('Administrator')->count(),
+            'registrarCount' => User::role('Registrar')->count(),
+            'studentCount' => User::role('Student')->count(),
+            'courseCount' => Course::count()
+        ];
+
+        return view('app.dashboard', $data);
     }
 }
