@@ -69,7 +69,7 @@ class ScheduleController extends Controller
             'schedule' => Schedule::query()
                 ->with([
                     'details.subject',
-                    'grades'
+                    'studentGrades'
                 ])
                 ->withCount('details')
                 ->find($schedule->id),
@@ -238,6 +238,18 @@ class ScheduleController extends Controller
         return Redirect::route('schedules.index')
             ->with([
                 'successMessage' => "{$schedule->code} finalized successfully."
+            ]);
+    }
+
+    public function finalizeAssignedStudents(Schedule $schedule)
+    {
+        $schedule->update([
+            'is_assigned_students_finalized' => true
+        ]);
+
+        return Redirect::route('schedules.assign', $schedule->id)
+            ->with([
+                'successMessage' => "{$schedule->code} assigned students was finalized successfully."
             ]);
     }
 

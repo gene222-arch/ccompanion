@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function ()
         Route::get('assign/{schedule}', [ScheduleController::class, 'assignView'])->name('assign.view');
         Route::post('assign/{schedule}', [ScheduleController::class, 'assign'])->name('assign');
         Route::put('finalized/{schedule}', [ScheduleController::class, 'finalize'])->name('finalize');
+        Route::put('finalized-assigned-students/{schedule}', [ScheduleController::class, 'finalizeAssignedStudents'])->name('finalize.assigned.students');
     });
 
     Route::group([

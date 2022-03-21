@@ -24,7 +24,39 @@
         </button>
         </div>
     @endif
-    <div class="display-6 px-2 pt-3">Assign Schedule {{ $schedule->code }}</div>
+    <div class="row justify-content-between align-items-center">
+        <div class="col">
+            <div class="display-6 px-2 pt-3">Assign Schedule {{ $schedule->code }}</div>
+        </div>
+        <div class="col text-right">
+            @if (! $schedule->is_assigned_students_finalized && $schedule->studentGrades->count())
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#markButtonAsFinal">
+                    MARK AS FINAL
+                </button>
+            @endif
+            <div class="modal fade" id="markButtonAsFinal" tabindex="-1" aria-labelledby="markButtonAsFinalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('schedules.finalize.assigned.students', $schedule->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-danger" id="markButtonAsFinalLabel">FINALIZED</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-left">
+                                Are you sure to mark <strong>{{ $schedule->code }}</strong> as final, you won`t be able to revert this action?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-warning">Continue</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card my-3">
         <div class="card-body">
             <div class="row">
@@ -118,7 +150,7 @@
                                                     class="form-check-input student-checkbox" 
                                                     type="checkbox" 
                                                     value="{{ $student->id }}" 
-                                                    {{ in_array($student->id, old('student_ids', $schedule->grades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
+                                                    {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
                                                 >
                                                 <label class="form-check-label" for="student{{ $student->id }}">
                                                 <i class="mr-2">{{ $student->code }}</i> {{ $student->user->name }}

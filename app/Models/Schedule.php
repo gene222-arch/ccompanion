@@ -23,7 +23,9 @@ class Schedule extends Model
         'course_id',
         'semester_type',
         'year_level',
-        'is_finalized'
+        'is_finalized',
+        'is_semester_finished',
+        'is_assigned_students_finalized'
     ];
 
     public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -41,7 +43,7 @@ class Schedule extends Model
         return $this->hasMany(ScheduleDetail::class);
     }
 
-    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function studentGrades(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Grade::class);
     }
