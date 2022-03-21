@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AuditTrailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Auth::routes([
 
 Route::middleware('auth')->group(function ()
 {
+    Route::get('/audit-trails', AuditTrailController::class)->name('audit.trails.index');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('announcements', AnnouncementController::class);
     Route::get('/enable/{announcement}', [AnnouncementController::class, 'toggleEnable'])->name('announcements.enabled');
