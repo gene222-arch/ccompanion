@@ -15,19 +15,19 @@ Trait HasAuditTrail
         parent::boot();
 
         self::created(function ($model) {
-            $this->auditTrails()->create([
+            $model->auditTrails()->create([
                 'action' => 'Create'
             ]);
         });
 
         self::updated(function ($model) {
-            $this->auditTrails()->create([
+            $model->auditTrails()->create([
                 'action' => 'Update'
             ]);
         });
 
         self::deleted(function ($model) {
-            $this->auditTrails()->create([
+            $model->auditTrails()->create([
                 'action' => 'Delete'
             ]);
         });
