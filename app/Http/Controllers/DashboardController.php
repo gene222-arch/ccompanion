@@ -4,23 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
     /**
      * Show the application dashboard.
      *
+     * @param  \App\Services\DashboardService  $service
+     * 
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(DashboardService $service)
     {
-        $data = [
-            'administratorCount' => User::role('Administrator')->count(),
-            'registrarCount' => User::role('Registrar')->count(),
-            'studentCount' => User::role('Student')->count(),
-            'courseCount' => Course::count()
-        ];
-
-        return view('app.dashboard', $data);
+        return view('app.dashboard', $service->index());
     }
 }
