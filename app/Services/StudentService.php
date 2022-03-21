@@ -46,7 +46,7 @@ class StudentService
                 $user = User::create($userData);
                 $user->assignRole('Student');
                 
-                $student = $user->student()->create([
+                $user->student()->create([
                     'student_id' => $this->studentID(),
                     'course_id' => $courseID,
                     'department_id' => $departmentID,
@@ -56,8 +56,6 @@ class StudentService
                     'contact_number' => $contactNumber,
                     'birthed_at' => $birthedAt
                 ]);
-
-                $student->semester()->create();
 
                 $user->notify(
                     new MailStudentNotification($password)
