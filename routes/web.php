@@ -43,13 +43,25 @@ Route::middleware('auth')->group(function ()
     Route::resource('departments', DepartmentController::class);
     Route::resource('professors', ProfessorController::class);
     Route::resource('schedules', ScheduleController::class);
-    Route::put('schedules/finalized/{schedule}', [ScheduleController::class, 'finalize'])->name('schedules.finalize');
-    Route::prefix('schedule/details')->group(function ()
-    {
-        Route::post('/{schedule}', [ScheduleController::class, 'storeDetails'])->name('schedules.store.details');
-        Route::delete('/{scheduleDetail}', [ScheduleController::class, 'destroyDetail'])->name('schedules.destroy.details');
-        Route::put('/{schedule}/update/{scheduleDetail}', [ScheduleController::class, 'updateDetails'])->name('schedules.update.details');
+    
+    Route::group([
+        'prefix' => 'schedules',
+        'as' => 'schedules.'
+    ], function () {
+        Route::get('assign/{schedule}', [ScheduleController::class, 'assignView'])->name('assign.view');
+        Route::post('assign/{schedule}', [ScheduleController::class, 'assign'])->name('assign');
+        Route::put('finalized/{schedule}', [ScheduleController::class, 'finalize'])->name('finalize');
     });
+
+    Route::group([
+        'prefix' => 'schedule/details',
+        'as' => 'schedules.'
+    ], function () {
+        Route::post('/{schedule}', [ScheduleController::class, 'storeDetails'])->name('store.details');
+        Route::delete('/{scheduleDetail}', [ScheduleController::class, 'destroyDetail'])->name('destroy.details');
+        Route::put('/{schedule}/update/{scheduleDetail}', [ScheduleController::class, 'updateDetails'])->name('update.details');
+    });
+
     Route::resource('students', StudentController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('registrars', RegistrarController::class);

@@ -65,7 +65,7 @@
                             </span>
                         </td>
                         <td>
-                            <div class="row align-items-center">
+                            <div class="row align-items-center text-center">
                                 @if (! $schedule->is_finalized)
                                     <div class="col">
                                         <div 
@@ -155,6 +155,19 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if ($schedule->is_finalized)
+                                    <div class="col">
+                                        <a 
+                                            class="btn btn-outline-info"
+                                            href="{{ route('schedules.assign', $schedule->id) }}"
+                                            data-toggle="tooltip" 
+                                            data-placement="right" 
+                                            title="Assign schedule to students"
+                                        >
+                                            <i class="fa-solid fa-user-check"></i>
+                                        </a>
+                                    </div>
+                                @endif
                                 <div class="col">
                                     <a 
                                         href="{{ route('schedules.show', $schedule->id) }}"
@@ -181,7 +194,7 @@
         $(document).ready( function () {
             $('#schedules').DataTable({
                 pageLength: 5,
-                "order": [[ 5, "ASC" ]]
+                "order": [[ 4, "ASC" ]]
             });
         });
     </script>

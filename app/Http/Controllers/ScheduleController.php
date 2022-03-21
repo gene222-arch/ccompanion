@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Schedule\AssignRequest;
 use App\Http\Requests\ScheduleDetailsRequest;
 use App\Models\Course;
 use App\Models\Schedule;
@@ -11,6 +12,7 @@ use App\Services\ScheduleService;
 use App\Http\Requests\ScheduleRequest;
 use App\Models\Professor;
 use App\Models\ScheduleDetail;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
@@ -53,6 +55,42 @@ class ScheduleController extends Controller
             'departments' => Department::all(['id', 'name']),
             'courses' => Course::all(['id', 'name'])
         ]);
+    }
+
+    public function assignView(Schedule $schedule)
+    {
+        return view('app.schedule.assign', [
+            'students' => Student::with('user:id,name')
+                ->where([
+                    [ 'course_id', $schedule->course_id ],
+                    [ 'department_id', $schedule->department_id ]
+                ])
+                ->get(),
+            'schedule' => Schedule::query()
+                ->with([
+                    'details.subject',
+                    'grades'
+                ])
+                ->withCount('details')
+                ->find($schedule->id),
+        ]);
+    }
+
+    public function assign(AssignRequest $request, Schedule $schedule, ScheduleService $service)
+    {
+        $studentCount = $request->collect('student_ids')->count();
+
+        $result = $service->assign($schedule, $request->student_ids);
+
+        return gettype($result) !== 'string'
+            ? Redirect::route('schedules.index')
+                ->with([
+                    'successMessage' => "{$studentCount} students assigned a schedule successfully."
+                ])
+            : Redirect::route('schedules.index')
+                ->with([
+                    'successMessage' => 'Assign student failed.'
+                ]);
     }
 
     /**

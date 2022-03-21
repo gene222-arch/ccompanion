@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Grade;
 use App\Models\Course;
 use App\Models\Department;
 use App\Traits\HasAuditTrail;
@@ -38,5 +39,10 @@ class Schedule extends Model
     public function details(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ScheduleDetail::class);
+    }
+
+    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
     }
 }
