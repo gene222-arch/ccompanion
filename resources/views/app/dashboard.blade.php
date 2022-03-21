@@ -169,13 +169,14 @@
         @endhasanyrole
         <div class="col-12 col-sm-12 col-md-10 mt-5">
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6" style="display: {{ $userCanViewMontlyActivities ? 'block' : 'none' }}">
+                <div class="col-12 col-sm-12" style="display: {{ $userCanViewMontlyActivities ? 'block' : 'none' }}">
                     <div class="card p-2 border-info">
                         <div id="monthlyActivities"></div>
                     </div>
                 </div>
+                <hr class="2 my-5">
                 <div 
-                    class="col-12 col-sm-12 col-md-{{ $userCanViewMonthlyRegisteredStudents ? '12' : '6' }}" 
+                    class="col-12 col-sm-12" 
                     style="display: {{ $userCanViewMonthlyRegisteredStudents ? 'block' : 'none' }}"
                 >
                     <div class="card p-2 border-info">
