@@ -13,6 +13,11 @@ use App\Http\Requests\Professor\UpdateRequest;
 
 class ProfessorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator|Registrar');
+    }
+    
     /**
      * Display a listing of the resource.
      *

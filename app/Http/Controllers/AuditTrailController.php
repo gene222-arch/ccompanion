@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class AuditTrailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator');
+    }
+
     /**
      * Handle the incoming request.
      *
