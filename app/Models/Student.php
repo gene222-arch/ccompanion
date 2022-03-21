@@ -37,11 +37,6 @@ class Student extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function semester(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Semester::class);
-    }
-
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
