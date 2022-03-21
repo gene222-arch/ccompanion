@@ -4,15 +4,17 @@ namespace App\Models;
 
 use App\Models\Course;
 use App\Models\Department;
+use App\Traits\HasAuditTrail;
 use App\Models\ScheduleDetail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Schedule extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasAuditTrail;
 
     protected $fillable = [
         'code',
