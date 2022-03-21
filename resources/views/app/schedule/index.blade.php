@@ -36,15 +36,19 @@
                 @foreach ($schedules as $schedule)
                     <tr>
                         <td>
-                            <a 
-                                class="select-to-edit" 
-                                href="{{ route('schedules.edit', $schedule->id) }}"
-                                data-toggle="tooltip" 
-                                data-placement="right" 
-                                title="Edit selected schedule"
-                            >
+                            @if (! $schedule->is_finalized)
+                                <a 
+                                    class="select-to-edit" 
+                                    href="{{ route('schedules.edit', $schedule->id) }}"
+                                    data-toggle="tooltip" 
+                                    data-placement="right" 
+                                    title="Edit selected schedule"
+                                >
+                                    {{ $schedule->code }}
+                                </a>
+                            @else 
                                 {{ $schedule->code }}
-                            </a>
+                            @endif
                         </td>
                         <td>{{ $schedule->department->name }}</td>
                         <td>{{ $schedule->course->name }}</td>
@@ -61,7 +65,7 @@
                             </span>
                         </td>
                         <td>
-                            <div class="row align-items-center">
+                            <div class="row align-items-center text-center">
                                 @if (! $schedule->is_finalized)
                                     <div class="col">
                                         <div 
@@ -151,6 +155,19 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if ($schedule->is_finalized)
+                                    <div class="col">
+                                        <a 
+                                            class="btn btn-outline-info"
+                                            href="{{ route('schedules.assign', $schedule->id) }}"
+                                            data-toggle="tooltip" 
+                                            data-placement="right" 
+                                            title="Assign schedule to students"
+                                        >
+                                            <i class="fa-solid fa-user-check"></i>
+                                        </a>
+                                    </div>
+                                @endif
                                 <div class="col">
                                     <a 
                                         href="{{ route('schedules.show', $schedule->id) }}"
@@ -177,7 +194,7 @@
         $(document).ready( function () {
             $('#schedules').DataTable({
                 pageLength: 5,
-                "order": [[ 5, "ASC" ]]
+                "order": [[ 4, "ASC" ]]
             });
         });
     </script>

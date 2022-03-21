@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Grade;
 use App\Models\Course;
 use App\Models\Department;
 use App\Traits\HasAuditTrail;
@@ -22,7 +23,9 @@ class Schedule extends Model
         'course_id',
         'semester_type',
         'year_level',
-        'is_finalized'
+        'is_finalized',
+        'is_semester_finished',
+        'is_assigned_students_finalized'
     ];
 
     public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -38,5 +41,10 @@ class Schedule extends Model
     public function details(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ScheduleDetail::class);
+    }
+
+    public function studentGrades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
     }
 }
