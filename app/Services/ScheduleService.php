@@ -36,9 +36,9 @@ class ScheduleService
             {
                 $subjectIDs = $schedule->details->map->subject_id;
 
-                if ($schedule->grades()->count())
+                if ($schedule->studentGrades()->count())
                 {
-                    $schedule->grades()->delete();
+                    $schedule->studentGrades()->delete();
                 }
 
                 foreach ($studentIDs as $studentID) 

@@ -64,8 +64,7 @@ class ScheduleController extends Controller
                 [ 'course_id', $schedule->course_id ],
                 [ 'department_id', $schedule->department_id ]
             ])
-            ->get()
-            ->map(fn ($student) => !$student->isScheduled());
+            ->get();
 
         $schedule = Schedule::query()
             ->with([

@@ -1,6 +1,7 @@
 <?php 
 namespace App\Services;
 
+use App\Jobs\QueueMailStudentNotification;
 use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\User;
@@ -57,9 +58,8 @@ class StudentService
                     'birthed_at' => $birthedAt
                 ]);
 
-                $user->notify(
-                    new MailStudentNotification($password)
-                );
+                dispatch(new QueueMailStudentNotification($user, $password))
+                    ->delay(3);
             });
         } catch (\Throwable $th) {
             return $th->getMessage();
