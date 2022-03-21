@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Department;
+use App\Traits\HasAuditTrail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
     use HasFactory;
+    use HasAuditTrail;
 
     /**
      * The attributes that are mass assignable.

@@ -4,14 +4,16 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Department;
+use App\Traits\HasAuditTrail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasAuditTrail;
 
     /**
      * The attributes that are mass assignable.

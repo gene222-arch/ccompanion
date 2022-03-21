@@ -71,6 +71,11 @@
 						<i class="fa-solid fa-user-tie mr-4 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
 					Registrars</a>
 				</li>
+				<li class="{{ request()->is('audit-trails') || request()->is('audit-trails/*') ? 'active' : '' }}">
+					<a href="/audit-trails">
+						<i class="fa-solid fa-book-open mr-4 {{ request()->is('audit-trails') || request()->is('audit-trails/*') ? 'text-info' : '' }}"></i> 
+					Audit Trail</a>
+				</li>
 			@endhasanyrole
 			<li>
 				<a href="#" class="nav-link" onclick="document.getElementById('logout__form').submit()">
