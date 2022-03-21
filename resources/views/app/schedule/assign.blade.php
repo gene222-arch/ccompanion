@@ -25,7 +25,7 @@
         </div>
     @endif
     <div class="row justify-content-between align-items-center">
-        <div class="col">
+        <div class="col-10">
             <div class="display-6 px-2 pt-3">Assign Schedule {{ $schedule->code }}</div>
         </div>
         <div class="col text-right">
@@ -33,6 +33,9 @@
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#markButtonAsFinal">
                     MARK AS FINAL
                 </button>
+            @endif
+            @if ($schedule->is_assigned_students_finalized)
+                <span class="badge rounded-pill bg-success p-3">Final</span>
             @endif
             <div class="modal fade" id="markButtonAsFinal" tabindex="-1" aria-labelledby="markButtonAsFinalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -115,28 +118,30 @@
                 @csrf
                <div class="row">
                     <div class="col-12 text-center mb-3">
-                            <i class="fa-solid fa-user-check text-info fa-3x p-4"></i>
+                        <i class="fa-solid fa-user-check text-info fa-3x p-4"></i>
                     </div>
                     <div class="dropdown-divider mt-4"></div>
-                    <div class="col-12 col-sm-12 col-md-6 mt-4">
-                        <div class="list-group-item bg-dark text-white">
-                            <div class="form-check ml-1">
-                                <input
-                                    id="selectAll"
-                                    class="form-check-input select-all-input" 
-                                    type="checkbox"
-                                >
-                                <label class="form-check-label" for="selectAll">
-                                <i class="mr-2"></i> Select All
+                    @if(! $schedule->is_assigned_students_finalized)
+                        <div class="col-12 col-sm-12 col-md-6 mt-4">
+                            <div class="list-group-item bg-dark text-white">
+                                <div class="form-check ml-1">
+                                    <input
+                                        id="selectAll"
+                                        class="form-check-input select-all-input" 
+                                        type="checkbox"
+                                    >
+                                    <label class="form-check-label" for="selectAll">
+                                    <i class="mr-2"></i> Select All
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="col-12">
                         <label 
                             for="students" 
                             class="my-4 @error('student_ids') text-danger @enderror"
                         >
-                            Select Students
+                            {{ $schedule->is_assigned_students_finalized ? 'Selected' : 'Select' }} Students
                         </label>
                         <ul class="list-group">
                             <div class="row">
@@ -150,6 +155,7 @@
                                                     class="form-check-input student-checkbox" 
                                                     type="checkbox" 
                                                     value="{{ $student->id }}" 
+                                                    @disabled($schedule->is_assigned_students_finalized)
                                                     {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
                                                 >
                                                 <label class="form-check-label" for="student{{ $student->id }}">
@@ -162,10 +168,12 @@
                             </div>
                         </ul>
                     </div>
-                    <div class="col-12 mt-5 text-right">
-                        <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </div>
+                    @if (! $schedule->is_assigned_students_finalized)
+                        <div class="col-12 mt-5 text-right">
+                            <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    @endif
                 </div>
             </form>
         </div>
