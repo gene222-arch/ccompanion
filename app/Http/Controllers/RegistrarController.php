@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class RegistrarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class AnnouncementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator');
+    }
+    
     /**
      * Display a listing of the resource.
      *

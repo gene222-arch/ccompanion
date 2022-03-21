@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator|Registrar');
+    }
+    
     /**
      * Display a listing of the resource.
      *

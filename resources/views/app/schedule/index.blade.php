@@ -68,7 +68,7 @@
                                         class="form-group my-2" 
                                         data-toggle="tooltip" 
                                         data-placement="right" 
-                                        title="Delete"
+                                        title="Finalize"
                                         >
                                         <button 
                                             type="submit" 

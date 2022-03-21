@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Redis;
 
 class ScheduleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:Super Administrator|Administrator|Registrar');
+    }
+    
     /**
      * Display a listing of the resource.
      *
