@@ -41,4 +41,25 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function isScheduled(): bool
+    {
+        if (! $this->grades) return false;
+
+        return $this
+            ->grades
+            ->map
+            ->schedule()
+            ->map
+            ->where([
+                [ 'is_assigned_students_finalized', true ],
+                [ 'is_semester_finished', false ]
+            ])
+            ->count();
+    }
 }

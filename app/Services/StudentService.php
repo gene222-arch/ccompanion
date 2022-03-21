@@ -118,7 +118,7 @@ class StudentService
     
     public function studentID(): string
     {
-        $id = Student::all()->last()->id + 1;
+        $id = Student::all()->count() ? Student::all()->last()->value('id') + 1 : 1;
         $length = Str::length($id);
 
         $prependZeros = match($length) {

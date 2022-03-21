@@ -59,20 +59,25 @@ class ScheduleController extends Controller
 
     public function assignView(Schedule $schedule)
     {
+        $students = Student::with('user:id,name')
+            ->where([
+                [ 'course_id', $schedule->course_id ],
+                [ 'department_id', $schedule->department_id ]
+            ])
+            ->get()
+            ->map(fn ($student) => !$student->isScheduled());
+
+        $schedule = Schedule::query()
+            ->with([
+                'details.subject',
+                'studentGrades'
+            ])
+            ->withCount('details')
+            ->find($schedule->id);
+
         return view('app.schedule.assign', [
-            'students' => Student::with('user:id,name')
-                ->where([
-                    [ 'course_id', $schedule->course_id ],
-                    [ 'department_id', $schedule->department_id ]
-                ])
-                ->get(),
-            'schedule' => Schedule::query()
-                ->with([
-                    'details.subject',
-                    'studentGrades'
-                ])
-                ->withCount('details')
-                ->find($schedule->id),
+            'students' => $students,
+            'schedule' => $schedule,
         ]);
     }
 
