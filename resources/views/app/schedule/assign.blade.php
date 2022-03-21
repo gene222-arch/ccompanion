@@ -26,7 +26,7 @@
     @endif
     <div class="row justify-content-between align-items-center">
         <div class="col-10">
-            <div class="display-6 px-2 pt-3">Assign Schedule {{ $schedule->code }}</div>
+            <div class="display-6 px-2 pt-3">{{ !$schedule->is_assigned_students_finalized ? 'Assign ' : '' }}Schedule {{ $schedule->code }}</div>
         </div>
         <div class="col text-right">
             @if (! $schedule->is_assigned_students_finalized && $schedule->studentGrades->count())
