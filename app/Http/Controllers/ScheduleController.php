@@ -132,6 +132,10 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
+        if ($schedule->is_finalized) {
+            return Redirect::back();
+        }
+
         return view('app.schedule.edit', [
             'departments' => Department::all(['id', 'name']),
             'courses' => Course::all(['id', 'name']),

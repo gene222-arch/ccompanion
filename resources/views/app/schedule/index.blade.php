@@ -36,15 +36,19 @@
                 @foreach ($schedules as $schedule)
                     <tr>
                         <td>
-                            <a 
-                                class="select-to-edit" 
-                                href="{{ route('schedules.edit', $schedule->id) }}"
-                                data-toggle="tooltip" 
-                                data-placement="right" 
-                                title="Edit selected schedule"
-                            >
+                            @if (! $schedule->is_finalized)
+                                <a 
+                                    class="select-to-edit" 
+                                    href="{{ route('schedules.edit', $schedule->id) }}"
+                                    data-toggle="tooltip" 
+                                    data-placement="right" 
+                                    title="Edit selected schedule"
+                                >
+                                    {{ $schedule->code }}
+                                </a>
+                            @else 
                                 {{ $schedule->code }}
-                            </a>
+                            @endif
                         </td>
                         <td>{{ $schedule->department->name }}</td>
                         <td>{{ $schedule->course->name }}</td>
