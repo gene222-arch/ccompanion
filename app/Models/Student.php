@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Grade;
+use App\Models\Schedule;
 use App\Models\Department;
 use App\Traits\HasAuditTrail;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +47,18 @@ class Student extends Model
     public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Grade::class);
+    }
+
+    public function activeSchedule(): null|Schedule
+    {
+        if (! $this->grades) return null;
+
+        return $this
+            ->grades 
+            ->map 
+            ->schedule
+            ->filter(fn ($sched) => !$sched->is_semester_finished)
+            ->first();
     }
 
     public function isScheduled(): bool
