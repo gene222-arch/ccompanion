@@ -13,7 +13,10 @@
                 </div>
             </div>
             <div class="col text-right">
-                <form action="{{ route('exports.registration.form', $student->id) }}" target="_blank" method="post">
+                <form action="{{ route('exports.registration.form', [
+                    'student' => $student->id,
+                    'schedule' => $schedule->id
+                ]) }}" target="_blank" method="post">
                     @csrf
                     <button 
                         type="submit"

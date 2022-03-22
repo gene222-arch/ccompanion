@@ -12,11 +12,10 @@ use Illuminate\Http\Request;
 class ExportController extends Controller
 {
 
-    public function registrationForm(Student $student, ExportService $service)
+    public function registrationForm(Student $student, Schedule $schedule, ExportService $service)
     {
         $student = Student::with('user')->find($student->id);
 
-        $schedule = $student->activeSchedule();
         $scheduleDetails = Schedule::with([
             'course',
             'details.subject',
