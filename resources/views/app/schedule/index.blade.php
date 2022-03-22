@@ -9,11 +9,13 @@
         <div class="col">
             <div class="display-6">Schedule</div>
         </div>
-        <div class="col text-right">
-            <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Department">
-                <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
-            </a>
-        </div>
+        @hasanyrole('Super Administrator|Administrator|Registrar')
+            <div class="col text-right">
+                <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Department">
+                    <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
+                </a>
+            </div>
+        @endhasanyrole
     </div>
     <div class="card">
         <div class="card-body">
@@ -28,7 +30,9 @@
                     <th>Department</th>
                     <th>Course</th>
                     <th>Subjects</th>
-                    <th>Status</th>
+                    @hasanyrole('Super Administrator|Administrator|Registrar')
+                        <th>Status</th>
+                    @endhasanyrole
                     <th>Action</th>
                 </tr>
             </thead>
@@ -53,6 +57,7 @@
                         <td>{{ $schedule->department->name }}</td>
                         <td>{{ $schedule->course->name }}</td>
                         <td>{{ $schedule->details_count }}</td>
+                        @hasanyrole('Super Administrator|Administrator|Registrar')
                         <td>
                             <span 
                                 @class([
@@ -190,6 +195,22 @@
                                 </div>
                             </div>
                         </td>
+                        @endhasanyrole
+                        @hasrole('Student')
+                         <td>
+                            <a 
+                                href="{{ route('schedules.details.for.student', [
+                                    'schedule' => $schedule->id,
+                                    'student' => Auth::user()->student->id
+                                ]) }}"
+                                data-toggle="tooltip" 
+                                data-placement="right" 
+                                title="View More Details"
+                            >
+                                <i class="fa-solid fa-eye fa-2x"></i>
+                            </a>
+                         </td>
+                        @endhasrole
                     </tr>
                 @endforeach
             </tbody>
