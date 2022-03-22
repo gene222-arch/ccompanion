@@ -82,6 +82,24 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
+                                    <label for="room">Room</label>
+                                    <input 
+                                        id="room" 
+                                        type="text" 
+                                        class="form-control @error('room') is-invalid @enderror" 
+                                        placeholder="Enter room" 
+                                        name="room"
+                                        value="{{ old('room') }}"
+                                    >
+                                    @error('room')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
                                     <label for="day">Day</label>
                                     <select 
                                         class="form-control custom-select @error('day') is-invalid @enderror" 
@@ -223,6 +241,7 @@
                     <tr>
                         <th scope="col">Subject</th>
                         <th scope="col">Professor</th>
+                        <th scope="col">Room</th>
                         <th scope="col">Day</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
@@ -236,6 +255,7 @@
                         <tr>
                             <td>{{ $detail->subject->name }}</td>
                             <td>{{ $detail->professor->name() }}</td>
+                            <td>{{ $detail->room }}</td>
                             <td>{{ $detail->day }}</td>
                             <td>{{ $detail->from }}</td>
                             <td>{{ $detail->to }}</td>
@@ -304,6 +324,24 @@
                                                                         @endforeach
                                                                     </select>
                                                                     @error('professor_id')
+                                                                        <div class="invalid-feedback">
+                                                                            {{ $message }}
+                                                                        </div>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <label for="room">Room</label>
+                                                                    <input 
+                                                                        id="room" 
+                                                                        type="text" 
+                                                                        class="form-control @error('room') is-invalid @enderror" 
+                                                                        placeholder="Enter room" 
+                                                                        name="room"
+                                                                        value="{{ old('room', $detail->room) }}"
+                                                                    >
+                                                                    @error('room')
                                                                         <div class="invalid-feedback">
                                                                             {{ $message }}
                                                                         </div>
