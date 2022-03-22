@@ -7,7 +7,7 @@
 @section('content')
     <div class="row align-items-center justify-content-between px-2 py-3">
         <div class="col">
-            <div class="display-6">Schedule</div>
+            <div class="display-6">Schedules</div>
         </div>
         @hasanyrole('Super Administrator|Administrator|Registrar')
             <div class="col text-right">
