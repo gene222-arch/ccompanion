@@ -120,6 +120,24 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="section">Section</label>
+                                    <input 
+                                        id="section" 
+                                        type="text" 
+                                        class="form-control @error('section') is-invalid @enderror" 
+                                        placeholder="Enter Section" 
+                                        name="section"
+                                        value="{{ old('section') }}"
+                                    >
+                                    @error('section')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-12 mt-5 text-right">
                                 <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-success">Save</button>
