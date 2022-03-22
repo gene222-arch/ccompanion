@@ -65,6 +65,11 @@
 					<i class="fa-solid fa-calendar-day mr-4 {{ request()->is('schedules') || request()->is('schedules/*') ? 'text-info' : '' }}"></i> 
 				Schedules</a>
 			</li>
+			<li class="{{ request()->is('account') || request()->is('account/*') ? 'active' : '' }}">
+				<a href="/account">
+					<i class="fa-solid fa-user-lock mr-4 {{ request()->is('account') || request()->is('account/*') ? 'text-info' : '' }}"></i> 
+				Account</a>
+			</li>
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
 					<a href="/registrars">

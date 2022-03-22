@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
@@ -36,6 +37,18 @@ Auth::routes([
 
 Route::middleware('auth')->group(function ()
 {
+    Route::group([
+        'prefix' => 'account',
+        'as' => 'account.'
+    ], function ()
+    {
+        Route::controller(AccountController::class)->group(function ()
+        {
+            Route::get('/', 'index')->name('index')->middleware('password.confirm');
+            Route::post('/change-password', 'changePassword')->name('change.password');
+        });
+    });
+
     Route::get('/audit-trails', AuditTrailController::class)->name('audit.trails.index');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('announcements', AnnouncementController::class);
