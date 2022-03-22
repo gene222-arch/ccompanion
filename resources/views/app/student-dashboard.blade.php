@@ -6,8 +6,26 @@
 
 @if ($schedule)
     @section('content')
-        <div class="display-6 mb-5">
-            <small class="text-secondary">Sched Code:</small> {{ $schedule->code }}
+        <div class="row align-items-center mb-5">
+            <div class="col">
+                <div class="display-6">
+                    <small class="text-secondary">Sched Code:</small> {{ $schedule->code }}
+                </div>
+            </div>
+            <div class="col text-right">
+                <form action="{{ route('exports.registration.form', $student->id) }}" target="_blank" method="post">
+                    @csrf
+                    <button 
+                        type="submit"
+                        data-toggle='tooltip'
+                        data-placement='left'
+                        title='Print Schedule' 
+                        class="btn btn-outline-secondary"
+                    >
+                        <i class="fa-solid fa-print"></i>
+                    </button>
+                </form>
+            </div>
         </div>
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12">
@@ -54,23 +72,29 @@
                         <table class="table table-hover" id="schedules">
                             <thead>
                                 <tr>
+                                    <th scope="col"></th>
                                     <th scope="col">Subject</th>
+                                    <th scope="col">Section</th>
                                     <th scope="col">Professor</th>
                                     <th scope="col">Room</th>
                                     <th scope="col">Day</th>
                                     <th scope="col">From</th>
                                     <th scope="col">To</th>
+                                    <th scope="col">Units</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($schedule->details as $scheduleDetail)
                                     <tr>
+                                        <td>{{ $scheduleDetail->subject->code }}</td>
                                         <td>{{ $scheduleDetail->subject->name }}</td>
+                                        <td>{{ $schedule->section }}</td>
                                         <td>{{ $scheduleDetail->professor->name() }}</td>
                                         <td>{{ $scheduleDetail->room }}</td>
                                         <td>{{ $scheduleDetail->day }}</td>
                                         <td>{{ $scheduleDetail->from }}</td>
                                         <td>{{ $scheduleDetail->to }}</td>
+                                        <td>{{ $scheduleDetail->subject->units }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

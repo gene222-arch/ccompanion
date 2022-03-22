@@ -73,6 +73,6 @@ Route::middleware('auth')->group(function ()
         'as' => 'exports.'
     ], function () 
     {
-        Route::get('registration-form/{student}', [ExportController::class, 'registrationForm'])->name('registration.form');
+        Route::post('registration-form/{student}', [ExportController::class, 'registrationForm'])->name('registration.form');
     });
 });
