@@ -15,6 +15,7 @@ class ScheduleDetail extends Model
         'schedule_id',
         'subject_id',
         'professor_id',
+        'room',
         'day',
         'from',
         'to'

@@ -26,6 +26,7 @@ class ScheduleDetailsRequest extends FormRequest
         return [
             'subject_id' => ['required', 'integer', 'exists:subjects,id'],
             'professor_id' => ['required', 'integer', 'exists:professors,id'],
+            'room' => ['required', 'string'],
             'day' => ['required', 'string', 'in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'],
             'from' => ['required'],
             'to' => ['required', 'after:from']
