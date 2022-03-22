@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SerialCode extends Model
 {
@@ -13,4 +14,11 @@ class SerialCode extends Model
         'code',
         'is_verified'
     ];
+
+    public static function generate()
+    {
+        return self::create([
+            'code' => Str::of(Str::random(3))->upper() . '-' . time()
+        ]);
+    }
 }
