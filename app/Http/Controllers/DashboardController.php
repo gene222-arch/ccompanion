@@ -30,7 +30,8 @@ class DashboardController extends Controller
             ])->find($schedule?->id);
 
             return view('app.student-dashboard', [
-                'schedule' => $schedule
+                'schedule' => $schedule,
+                'student' => $user->student
             ]);
         }
 

@@ -23,6 +23,7 @@ class Schedule extends Model
         'course_id',
         'semester_type',
         'year_level',
+        'section',
         'is_finalized',
         'is_semester_finished',
         'is_assigned_students_finalized'

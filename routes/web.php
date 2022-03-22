@@ -14,6 +14,7 @@ use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditTrailController;
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function ()
         'prefix' => 'schedules',
         'as' => 'schedules.'
     ], function () {
+        Route::get('{schedule}/details/{student}', [ScheduleController::class, 'showForStudent'])->name('details.for.student');
         Route::get('assign/{schedule}', [ScheduleController::class, 'assignView'])->name('assign.view');
         Route::post('assign/{schedule}', [ScheduleController::class, 'assign'])->name('assign');
         Route::put('finalized/{schedule}', [ScheduleController::class, 'finalize'])->name('finalize');
@@ -66,4 +68,12 @@ Route::middleware('auth')->group(function ()
     Route::resource('students', StudentController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('registrars', RegistrarController::class);
+
+    Route::group([
+        'prefix' => 'exports',
+        'as' => 'exports.'
+    ], function () 
+    {
+        Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])->name('registration.form');
+    });
 });

@@ -14,6 +14,7 @@ use App\Models\Professor;
 use App\Models\ScheduleDetail;
 use App\Models\Student;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 
@@ -21,7 +22,8 @@ class ScheduleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:Super Administrator|Administrator|Registrar');
+        $this->middleware('role:Super Administrator|Administrator|Registrar')
+            ->except(['index', 'showForStudent']);
     }
     
     /**
@@ -31,7 +33,20 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::query()
+        $schedules = Schedule::query();
+        $user = Auth::user();
+
+        if ($user->roles->first()->name === 'Student') 
+        {
+            $schedules->where([
+                [ 'is_assigned_students_finalized', true ],
+                [ 'is_finalized', true ]
+            ]);
+            
+            $schedules->whereRelation('studentGrades', fn ($q) => $q->where('student_id', $user->student->id));
+        }
+
+        $schedules = $schedules
             ->with([
                 'course',
                 'department'
@@ -163,6 +178,23 @@ class ScheduleController extends Controller
             'details' => $details,
             'subjects' => Subject::all(['id', 'name']),
             'professors' => Professor::all()
+        ]);
+    }
+
+    public function showForStudent(Schedule $schedule, Student $student)
+    {
+        $user = Auth::user();
+
+        $schedule = $user->student->activeSchedule();
+
+        $schedule = Schedule::with([
+            'details.subject',
+            'details.professor'
+        ])->find($schedule->id);
+
+        return view('app.schedule.details', [
+            'schedule' => $schedule,
+            'student' => $student
         ]);
     }
 
