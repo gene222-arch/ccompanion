@@ -16,6 +16,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditTrailController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SerialCodeController;
 
 /*
@@ -56,6 +57,19 @@ Route::middleware('auth')->group(function ()
     Route::resource('administrators', AdminController::class);
     Route::resource('courses', CourseController::class);
     Route::resource('departments', DepartmentController::class);
+
+    Route::group([
+        'prefix' => 'grades',
+        'as' => 'grades.'
+    ], function () 
+    {
+        Route::controller(GradeController::class)->group(function () 
+        {
+            Route::get('/create/{student}', 'edit')->name('edit');
+            Route::put('/', 'update')->name('update');
+        });
+    });
+
     Route::resource('professors', ProfessorController::class);
     Route::resource('schedules', ScheduleController::class);
     

@@ -27,6 +27,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Department</th>
+                    <th>Course</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -46,41 +47,53 @@
                         </td>
                         <td>{{ $student->user->email }}</td>
                         <td>{{ $student->department->name }}</td>
+                        <td>{{ $student->course->name }}</td>
                         <td>
-                            <div 
-                                class="form-group my-2" 
-                                data-toggle="tooltip" 
-                                data-placement="right" 
-                                title="Delete"
-                            >
-                                <button 
-                                    type="submit" 
-                                    class="btn btn-danger"
-                                    data-toggle="modal" 
-                                    data-target="#student{{ $student->id }}"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                            <div class="modal fade" id="student{{ $student->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Delete selected student named <i class="text-danger">{{ $student->user->name }}</i>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                                            <form action="{{ route('students.destroy', $student->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-warning">Continue</button>
-                                            </form>
+                            <div class="row align-items-center">
+                                @if ($student->activeSchedule())
+                                    <div class="col">
+                                        <a href="{{ route('grades.edit', $student->id) }}">
+                                            <i class="fa-solid fa-pen-fancy fa-2x"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                                <div class="col">
+                                    <div 
+                                        class="form-group my-2" 
+                                        data-toggle="tooltip" 
+                                        data-placement="right" 
+                                        title="Delete"
+                                    >
+                                        <button 
+                                            type="submit" 
+                                            class="btn btn-danger"
+                                            data-toggle="modal" 
+                                            data-target="#student{{ $student->id }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal fade" id="student{{ $student->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Delete selected student named <i class="text-danger">{{ $student->user->name }}</i>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                                    <form action="{{ route('students.destroy', $student->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-warning">Continue</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

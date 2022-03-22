@@ -17,6 +17,7 @@ class Grade extends Model
         'schedule_id',
         'subject_id',
         'grade',
+        'grade_point_equivalence',
         'status'
     ];
 
