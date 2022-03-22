@@ -14,6 +14,7 @@ use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditTrailController;
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,4 +67,12 @@ Route::middleware('auth')->group(function ()
     Route::resource('students', StudentController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('registrars', RegistrarController::class);
+
+    Route::group([
+        'prefix' => 'exports',
+        'as' => 'exports.'
+    ], function () 
+    {
+        Route::get('registration-form/{student}', [ExportController::class, 'registrationForm'])->name('registration.form');
+    });
 });

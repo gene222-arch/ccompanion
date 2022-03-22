@@ -56,6 +56,7 @@
                                 <tr>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Professor</th>
+                                    <th scope="col">Room</th>
                                     <th scope="col">Day</th>
                                     <th scope="col">From</th>
                                     <th scope="col">To</th>
@@ -66,6 +67,7 @@
                                     <tr>
                                         <td>{{ $scheduleDetail->subject->name }}</td>
                                         <td>{{ $scheduleDetail->professor->name() }}</td>
+                                        <td>{{ $scheduleDetail->room }}</td>
                                         <td>{{ $scheduleDetail->day }}</td>
                                         <td>{{ $scheduleDetail->from }}</td>
                                         <td>{{ $scheduleDetail->to }}</td>
