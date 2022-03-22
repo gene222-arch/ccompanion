@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\Schedule;
+use App\Models\SerialCode;
 use App\Services\ExportService;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Http\Request;
@@ -52,12 +53,15 @@ class ExportController extends Controller
             ];
         }
 
+        $serialCode = SerialCode::generate();
+
         $pdf = PDF::loadView('exports.registration-form', [
             'schedules' => $data,
             'schedule' => $schedule,
             'student' => $student,
+            'serialCode' => $serialCode
         ])->setPaper('a4', 'landscape');
 
-        return $pdf->stream($student->student_id . ' - Registration Form.pdf'); 
+        return $pdf->download($student->student_id . ' - Registration Form.pdf'); 
     }
 }

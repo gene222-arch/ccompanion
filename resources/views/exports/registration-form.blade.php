@@ -12,6 +12,7 @@
     </style>
 </head>
 <body>
+    <p align='right' style="margin-bottom: 1rem;">SN: <i style="color: gray;">{{ $serialCode->code }}</i></p>
     <table>
         <tbody>
             <tr>
