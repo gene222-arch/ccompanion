@@ -15,6 +15,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditTrailController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\SerialCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::middleware('auth')->group(function ()
     Route::resource('professors', ProfessorController::class);
     Route::resource('schedules', ScheduleController::class);
     
+    Route::post('serial-codes/verify', [SerialCodeController::class, 'verify'])->name('serial.codes.verify');
+
     Route::group([
         'prefix' => 'schedules',
         'as' => 'schedules.'
