@@ -158,13 +158,23 @@
                                 @if ($schedule->is_finalized)
                                     <div class="col">
                                         <a 
-                                            class="btn btn-outline-info"
+                                            @class([
+                                                'btn',
+                                                'btn-outline-info' => !$schedule->is_assigned_students_finalized,
+                                                'btn-success' => $schedule->is_assigned_students_finalized
+                                            ])
                                             href="{{ route('schedules.assign', $schedule->id) }}"
                                             data-toggle="tooltip" 
                                             data-placement="right" 
-                                            title="Assign schedule to students"
+                                            title="{{ !$schedule->is_assigned_students_finalized ? 'Assign schedule to' : 'View assigned'}} students"
                                         >
-                                            <i class="fa-solid fa-user-check"></i>
+                                            <i 
+                                                @class([
+                                                    'fa-solid',
+                                                    'fa-user-check' => !$schedule->is_assigned_students_finalized,
+                                                    'fa-users-viewfinder' => $schedule->is_assigned_students_finalized
+                                                ])
+                                            ></i>
                                         </a>
                                     </div>
                                 @endif

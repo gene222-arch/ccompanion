@@ -1,6 +1,7 @@
 <?php 
 namespace App\Services;
 
+use App\Jobs\QueueMailStudentNotification;
 use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\User;
@@ -57,9 +58,8 @@ class StudentService
                     'birthed_at' => $birthedAt
                 ]);
 
-                $user->notify(
-                    new MailStudentNotification($password)
-                );
+                dispatch(new QueueMailStudentNotification($user, $password))
+                    ->delay(3);
             });
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -118,7 +118,7 @@ class StudentService
     
     public function studentID(): string
     {
-        $id = Student::all()->last()->id + 1;
+        $id = Student::all()->count() ? Student::all()->last()->value('id') + 1 : 1;
         $length = Str::length($id);
 
         $prependZeros = match($length) {

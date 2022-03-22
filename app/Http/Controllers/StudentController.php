@@ -71,7 +71,7 @@ class StudentController extends Controller
                 ])
             : Redirect::route('students.index')
                 ->with([
-                    'successMessage' => 'Create student failed.'
+                    'errorMessage' => 'Create student failed.'
                 ]);
     }
 

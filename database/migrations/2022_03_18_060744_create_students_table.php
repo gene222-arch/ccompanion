@@ -20,8 +20,8 @@ return new class extends Migration
             $table->id();
             $table->string('student_id')->unique();
             $table->foreignIdFor(User::class)->unique()->constrained();
-            $table->foreignIdFor(Course::class)->unique()->constrained();
-            $table->foreignIdFor(Department::class)->unique()->constrained();
+            $table->foreignIdFor(Course::class)->constrained();
+            $table->foreignIdFor(Department::class)->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('guardian');
