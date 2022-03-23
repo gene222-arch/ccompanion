@@ -64,8 +64,30 @@
     <table style="margin-top: 3rem;">
         <tbody>
             <tr>
+                <td>Total units</td>
+                <td align='right'><strong>{{ $totalUnits }}</strong></td>
+            </tr>
+            <tr>
+                <td>Total Units Passed</td>
+                <td align='right'><strong>{{ $totalUnitsPassed }}</strong></td>
+            </tr>
+            <tr>
+                <td>Total Units Failed</td>
+                <td align='right'><strong>{{ $totalUnitsFailed }}</strong></td>
+            </tr>
+            <tr>
+                <td>Total Units INC</td>
+                <td align='right'><strong>{{ $totalUnitsINC }}</strong></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td align='right'>
+                    <strong>{{ $status }}</strong>    
+                </td>
+            </tr>
+            <tr>
                 <td>G.W.A</td>
-                <td>
+                <td align='right'>
                     <strong>{{ number_format($schedule->student_grades_avg_grade_point_equivalence, 2) }}</strong>    
                 </td>
             </tr>

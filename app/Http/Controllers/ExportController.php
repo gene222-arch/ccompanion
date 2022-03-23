@@ -77,10 +77,20 @@ class ExportController extends Controller
             ->withAvg('studentGrades', 'grade_point_equivalence')
             ->find($scheduleID);
 
+        $totalUnits = $schedule->studentGrades->sum(fn ($sg) => $sg->subject->units);
+        $totalUnitsPassed = $schedule->studentGrades->sum(fn ($sg) => $sg->status === 'Passed' ? $sg->subject->units : 0);
+        $totalUnitsFailed = $schedule->studentGrades->sum(fn ($sg) => $sg->status === 'Failed' ? $sg->subject->units : 0);
+        $totalUnitsINC = $schedule->studentGrades->sum(fn ($sg) => $sg->status === 'Incomplete' ? $sg->subject->units : 0);
+
         $data = [
             'schedule' => $schedule,
             'student' => Student::with(['course', 'department'])->find($studentID),
-            'serialCode' => $serialCode
+            'serialCode' => $serialCode,
+            'totalUnits' => $totalUnits,
+            'totalUnitsPassed' => $totalUnitsPassed,
+            'totalUnitsFailed' => $totalUnitsFailed,
+            'totalUnitsINC' => $totalUnitsINC,
+            'status' => $totalUnits === $totalUnitsPassed ? 'Passed' : 'Failed'
         ];
 
         $pdf = PDF::loadView('exports.com-card', $data)->setPaper('a4', 'landscape');
