@@ -114,4 +114,6 @@ Route::middleware('auth')->group(function ()
             ->name('registration.form');
 
     });
+
+    Route::get('/chat-box', fn () => view('app.chat-box'));
 });
