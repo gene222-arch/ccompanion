@@ -32,7 +32,8 @@ class GradeService
                             if ($grade) {
                                 $studentGrade->update([
                                     'grade' => $grade,
-                                    'grade_point_equivalence' => $this->gradePointEquivalence($grade)
+                                    'grade_point_equivalence' => $this->gradePointEquivalence($grade),
+                                    'status' => 'Processed'
                                 ]);
                             }
                         }

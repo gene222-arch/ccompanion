@@ -14,6 +14,33 @@ use App\Http\Requests\Grade\StoreRequest;
 
 class GradeController extends Controller
 {
+    public function index()
+    {
+        $student = Auth::user()->student;
+
+        $column = fn ($q) => $q->where([
+            [ 'student_id', $student->id ],
+            [ 'is_accessible_to_student', true ],
+            [ 'status', 'Processed' ]
+        ]);
+
+        $schedules = Schedule::query()
+            ->with([
+                'course',
+                'department'
+            ])
+            ->whereRelation('studentGrades', $column)
+            ->withAvg([ 'studentGrades' => $column ], 'grade_point_equivalence')
+            ->withAvg([ 'studentGrades' => $column ], 'grade')
+            ->withCount('details')
+            ->orderBy('year_level')
+            ->get();
+
+        return view('app.grade.index', [
+            'schedules' => $schedules
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

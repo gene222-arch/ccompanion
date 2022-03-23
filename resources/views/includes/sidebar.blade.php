@@ -67,7 +67,7 @@
 			</li>
 			<li class="{{ request()->is('account') || request()->is('account/*') ? 'active' : '' }}">
 				<a href="/account">
-					<i class="fa-solid fa-user-lock mr-4 {{ request()->is('account') || request()->is('account/*') ? 'text-info' : '' }}"></i> 
+					<i class="fa-solid fa-user-lock mr-3 {{ request()->is('account') || request()->is('account/*') ? 'text-info' : '' }}"></i> 
 				Account</a>
 			</li>
 			@hasanyrole('Super Administrator|Administrator')
