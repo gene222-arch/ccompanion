@@ -27,7 +27,7 @@ class StudentController extends Controller
     public function index()
     {
         return view('app.student.index', [
-            'students' => Student::with(['user:id,name,email', 'department:id,name'])->get()
+            'students' => Student::with(['user:id,name,email', 'department:id,name', 'course:id,name'])->get()
         ]);
     }
 

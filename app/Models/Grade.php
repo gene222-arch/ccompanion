@@ -17,7 +17,9 @@ class Grade extends Model
         'schedule_id',
         'subject_id',
         'grade',
-        'status'
+        'grade_point_equivalence',
+        'status',
+        'is_accessible_to_student'
     ];
 
     public function schedule(): \Illuminate\Database\Eloquent\Relations\BelongsTo

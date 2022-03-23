@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Grade;
+use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Department;
 use App\Traits\HasAuditTrail;
@@ -33,6 +34,11 @@ class Student extends Model
         'contact_number',
         'birthed_at'
     ];
+
+    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
 
     public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

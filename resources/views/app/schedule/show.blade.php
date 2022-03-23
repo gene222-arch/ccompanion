@@ -222,6 +222,14 @@
                             {{ $schedule->course->name }}
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>Section</strong>
+                        </div>
+                        <div class="col text-secondary">
+                            {{ $schedule->section }}
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-muted text-center">
                     Created {{ \Carbon\Carbon::parse($schedule->created_at)->diffForHumans() }}

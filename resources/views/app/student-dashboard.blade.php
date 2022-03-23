@@ -6,6 +6,36 @@
 
 @if ($schedule)
     @section('content')
+        <div class="card text-center mb-5">
+            <div class="card-header bg-primary"></div>
+                <div class="card-body">
+                    <h5 class="card-title">Enter serial code here</h5>
+                    <form method="POST" action="{{ route('serial.codes.verify') }}">
+                        @csrf
+                        <div class="input-group input-group-sm mb-3 px-5">
+                            <div class="input-group-prepend mt-1">
+                                <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fa-solid fa-barcode"></i></span>
+                            </div>
+                            <input 
+                                name="serial_code" 
+                                type="text" 
+                                class="form-control @error('serial_code') is-invalid @enderror bg-light" 
+                                aria-label="Small" 
+                                aria-describedby="inputGroup-sizing-sm"
+                                autofocus
+                                placeholder="ex: OCH-123914718"
+                            >
+                            @error('serial_code')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <small class="card-text text-secondary">Please do not use spaces.</small><br>
+                        <button type="submit" class="btn btn-outline-success mt-2 px-5">Verify</button>
+                    </form>
+                </div>
+        </div>
         <div class="row align-items-center mb-5">
             <div class="col">
                 <div class="display-6">
