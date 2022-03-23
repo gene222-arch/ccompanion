@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function ()
     {
         Route::controller(GradeController::class)->group(function () 
         {
+            Route::get('/tor', 'index')->name('index');
+            Route::get('/tor/{schedule}/students/{student}', 'show')->name('show');
             Route::get('/create/{student}', 'edit')->name('edit');
             Route::put('/', 'update')->name('update');
             Route::put('/student-access/{studentID}/{schedule}', 'toggleStudentAccess')->name('toggle.student.access');
@@ -105,6 +107,11 @@ Route::middleware('auth')->group(function ()
         'as' => 'exports.'
     ], function () 
     {
-        Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])->name('registration.form');
+        Route::post('com-card/{studentID}/schedules/{scheduleID}', [ExportController::class, 'comCard'])
+            ->name('com.card');
+
+        Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])
+            ->name('registration.form');
+
     });
 });

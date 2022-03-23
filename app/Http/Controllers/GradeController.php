@@ -14,6 +14,34 @@ use App\Http\Requests\Grade\StoreRequest;
 
 class GradeController extends Controller
 {
+    public function index()
+    {
+        $student = Auth::user()->student;
+
+        $column = fn ($q) => $q->where([
+            [ 'student_id', $student->id ],
+            [ 'is_accessible_to_student', true ],
+            [ 'status', 'Processed' ]
+        ]);
+
+        $schedules = Schedule::query()
+            ->with([
+                'course',
+                'department',
+                'studentGrades'
+            ])
+            ->whereRelation('studentGrades', $column)
+            ->withAvg([ 'studentGrades' => $column ], 'grade_point_equivalence')
+            ->withAvg([ 'studentGrades' => $column ], 'grade')
+            ->withCount('details')
+            ->orderBy('year_level')
+            ->get();
+
+        return view('app.grade.index', [
+            'schedules' => $schedules
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,6 +57,26 @@ class GradeController extends Controller
         return view('app.grade.create', [
             'schedule' => $schedule,
             'student' => Student::with(['user', 'course', 'department'])->find($student->id)
+        ]);
+    }
+
+    public function show(int $scheduleID, int $studentID)
+    {
+        $schedule = Schedule::with('studentGrades.subject')
+            ->whereRelation(
+                'studentGrades', 
+                fn ($q) => $q->where([
+                    ['student_id', $studentID], 
+                    [ 'is_accessible_to_student', true ]
+                ])
+            )
+            ->find($scheduleID);
+
+        $student = Student::with(['user', 'course', 'department'])->find($studentID);
+
+        return view('app.grade.show', [
+            'schedule' => $schedule,
+            'student' => $student
         ]);
     }
 

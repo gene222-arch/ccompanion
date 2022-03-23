@@ -64,4 +64,27 @@ class ExportController extends Controller
 
         return $pdf->download($student->student_id . ' - Registration Form.pdf'); 
     }
+
+    public function comCard(int $studentID, int $scheduleID)
+    {
+        $serialCode = SerialCode::first();
+        $schedule = Schedule::query()
+            ->with([
+                'studentGrades.subject',
+                'details.professor'
+            ])
+            ->withAvg('studentGrades', 'grade')
+            ->withAvg('studentGrades', 'grade_point_equivalence')
+            ->find($scheduleID);
+
+        $data = [
+            'schedule' => $schedule,
+            'student' => Student::with(['course', 'department'])->find($studentID),
+            'serialCode' => $serialCode
+        ];
+
+        $pdf = PDF::loadView('exports.com-card', $data)->setPaper('a4', 'landscape');
+
+        return $pdf->stream(Student::find($studentID) . ' - Com Form.pdf'); 
+    }
 }
