@@ -70,6 +70,11 @@
 					<i class="fa-solid fa-user-lock mr-3 {{ request()->is('account') || request()->is('account/*') ? 'text-info' : '' }}"></i> 
 				Account</a>
 			</li>
+			<li class="{{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'active' : '' }}">
+				<a href="/grades/tor">
+					<i class="fa-solid fa-copy mr-3 {{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'text-info' : '' }}"></i> 
+				Transcript of Records</a>
+			</li>
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
 					<a href="/registrars">

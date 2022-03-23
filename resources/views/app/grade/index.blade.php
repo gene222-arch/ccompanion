@@ -35,7 +35,10 @@
                             <td>{{ number_format($schedule->student_grades_avg_grade, 2) }}</td>
                             <td>{{ number_format($schedule->student_grades_avg_grade_point_equivalence, 2) }}</td>
                             <td>
-                                <a href="" data-toggle='tooltip' data-placement='left' title='View Com Card'>
+                                <a href="{{ route('grades.show', [
+                                    'schedule' => $schedule->id,
+                                    'student' => $schedule->studentGrades->first()->student_id
+                                ]) }}" data-toggle='tooltip' data-placement='left' title='View Com Card'>
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>
