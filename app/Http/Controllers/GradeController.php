@@ -7,9 +7,10 @@ use App\Models\Student;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Services\GradeService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Grade\StoreRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Grade\StoreRequest;
 
 class GradeController extends Controller
 {
@@ -50,4 +51,16 @@ class GradeController extends Controller
                 'successMessage' => 'Student graded successfully.'
             ]);
     }
+
+    public function toggleStudentAccess(int $studentID, Schedule $schedule)
+    {
+        $schedule->studentGrades()->update([
+            'is_accessible_to_student' => DB::raw('!is_accessible_to_student')
+        ]);
+
+        return Redirect::route('grades.edit', $studentID)
+            ->with([
+                'successMessage' => 'Grade visibility updated successfully.'
+            ]);
+        }
 }

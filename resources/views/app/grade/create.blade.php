@@ -2,7 +2,39 @@
 
 @section('content')
     <div class="container">
-        <p class="lead">Student ID: <strong>{{ $student->student_id }}</strong></p>
+        <div class="row">
+            <div class="col">
+                <p class="lead">Student ID: <strong>{{ $student->student_id }}</strong></p>
+            </div>
+            <div class="col text-right">
+                <form action="{{ route('grades.toggle.student.access', [
+                    'studentID' => $student->id,
+                    'schedule' => $schedule->id
+                ]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <button 
+                        type="submit"
+                        @class([
+                            'btn',
+                            'btn-warning' => !$schedule->studentGrades->first()->is_accessible_to_student,
+                            'btn-success' => $schedule->studentGrades->first()->is_accessible_to_student
+                        ])
+                        data-toggle='tooltip'
+                        data-placement='left'
+                        title="{{ $schedule->studentGrades->first()->is_accessible_to_student ? 'Disable' : 'Enable' }} student access"
+                    >
+                        <i
+                            @class([
+                                'fa-solid',
+                                'fa-eye-slash' => !$schedule->studentGrades->first()->is_accessible_to_student,
+                                'fa-eye' => $schedule->studentGrades->first()->is_accessible_to_student
+                            ])
+                        ></i>
+                    </button>
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card">
