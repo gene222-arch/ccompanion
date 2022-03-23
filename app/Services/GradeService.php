@@ -29,11 +29,14 @@ class GradeService
                                 ]);
                             }
 
+
+                            $gpe = $this->gradePointEquivalence($grade);
+
                             if ($grade) {
                                 $studentGrade->update([
                                     'grade' => $grade,
-                                    'grade_point_equivalence' => $this->gradePointEquivalence($grade),
-                                    'status' => 'Processed'
+                                    'grade_point_equivalence' => $gpe,
+                                    'status' => $gpe >= 3.00 ? 'Passed' : 'Failed'
                                 ]);
                             }
                         }
