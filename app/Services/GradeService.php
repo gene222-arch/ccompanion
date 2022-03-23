@@ -56,7 +56,8 @@ class GradeService
         if ($grade >= 80 && $grade <= 83) return 2.00;
         if ($grade >= 75 && $grade <= 79) return 2.25;
         if ($grade >= 70 && $grade <= 74) return 2.50;
-        if ($grade >= 60 && $grade <= 69) return 3;
+        if ($grade >= 65 && $grade <= 69) return 2.75;
+        if ($grade >= 60 && $grade <= 64) return 3;
         if ($grade <= 59) return 4;
     }
 }

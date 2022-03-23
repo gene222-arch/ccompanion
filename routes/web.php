@@ -107,6 +107,11 @@ Route::middleware('auth')->group(function ()
         'as' => 'exports.'
     ], function () 
     {
-        Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])->name('registration.form');
+        Route::post('com-card/{studentID}/schedules/{scheduleID}', [ExportController::class, 'comCard'])
+            ->name('com.card');
+
+        Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])
+            ->name('registration.form');
+
     });
 });

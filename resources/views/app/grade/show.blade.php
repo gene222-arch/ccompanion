@@ -2,15 +2,21 @@
 
 @section('content')
     <div class="text-right">
-        <button 
-            type="submit"
-            data-toggle='tooltip'
-            data-placement='left'
-            title='Print Com Card' 
-            class="btn btn-outline-secondary mb-5"
-        >
-            <i class="fa-solid fa-print"></i>
-        </button>
+        <form action="{{ route('exports.com.card', [
+            'scheduleID' => $schedule->id,
+            'studentID' => $student->id
+        ]) }}" method="POST" target="_blank">
+            @csrf
+            <button 
+                type="submit"
+                data-toggle='tooltip'
+                data-placement='left'
+                title='Print Com Card' 
+                class="btn btn-outline-secondary mb-5"
+            >
+                <i class="fa-solid fa-print"></i>
+            </button>
+        </form>
     </div>
     <div class="row">
         <div class="col-12">
