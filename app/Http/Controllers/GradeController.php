@@ -21,7 +21,7 @@ class GradeController extends Controller
         $column = fn ($q) => $q->where([
             [ 'student_id', $student->id ],
             [ 'is_accessible_to_student', true ],
-            [ 'status', 'Processed' ]
+            [ 'status', '!=', 'Incomplete' ]
         ]);
 
         $schedules = Schedule::query()
