@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Schedule\AssignRequest;
-use App\Http\Requests\ScheduleDetailsRequest;
 use App\Models\Course;
-use App\Models\Schedule;
-use App\Models\Department;
-use Illuminate\Http\Request;
-use App\Services\ScheduleService;
-use App\Http\Requests\ScheduleRequest;
-use App\Models\Professor;
-use App\Models\ScheduleDetail;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Schedule;
+use App\Models\Professor;
+use App\Models\Department;
+use Illuminate\Http\Request;
+use App\Models\ScheduleDetail;
+use App\Services\ScheduleService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
+use App\Http\Requests\ScheduleRequest;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Schedule\AssignRequest;
+use App\Http\Requests\ScheduleDetailsRequest;
 
 class ScheduleController extends Controller
 {

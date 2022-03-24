@@ -45,11 +45,11 @@ class ScheduleService
                 {
                     foreach ($subjectIDs as $subjectID) 
                     {
-                        Grade::create([
+                        Grade::updateOrCreate([
                             'student_id' => $studentID,
                             'schedule_id' => $schedule->id,
                             'subject_id' => $subjectID
-                        ]);
+                        ], []);
                     }
                 }
             });
