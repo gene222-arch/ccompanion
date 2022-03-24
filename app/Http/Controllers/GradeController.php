@@ -50,8 +50,11 @@ class GradeController extends Controller
      */
     public function edit(Student $student)
     {
-        $schedule = Schedule::with('studentGrades.subject')
-            ->whereRelation('studentGrades', fn ($q) => $q->where('student_id', $student->id))
+        $schedule = Schedule::query()
+            ->with([
+                'studentGrades' => fn ($q) => $q->where('student_id', $student->id),
+                'studentGrades.subject'
+            ])
             ->find($student->activeSchedule()->id);
 
         return view('app.grade.create', [
