@@ -75,12 +75,6 @@ class ScheduleController extends Controller
 
     public function assignView(Schedule $schedule)
     {
-        $finalizedStudentIDs = collect([]);
-
-        if ($schedule->is_assigned_students_finalized) {
-            $finalizedStudentIDs = $schedule->studentGrades->map->student_id->unique();
-        }
-
         $students = Student::with('user:id,name')
             ->where([
                 [ 'course_id', $schedule->course_id ],
@@ -89,10 +83,6 @@ class ScheduleController extends Controller
             ->get();
             
         $students = $students->filter(fn ($student) => !$student->activeSchedule());
-
-        if ($finalizedStudentIDs->count()) {
-            $students = $students->filter(fn ($student) => $finalizedStudentIDs->search($student->id) || $finalizedStudentIDs->search($student->id) === 0);
-        }
 
         $schedule = Schedule::query()
             ->with([
