@@ -56,7 +56,7 @@
                         </td>
                         <td>{{ $schedule->department->name }}</td>
                         <td>{{ $schedule->course->name }}</td>
-                        <td>{{ $schedule->details_count }}</td>
+                        <td>{{ $schedule->details->map->subject_id->unique()->count() }}</td>
                         @hasanyrole('Super Administrator|Administrator|Registrar')
                         <td>
                             <span 

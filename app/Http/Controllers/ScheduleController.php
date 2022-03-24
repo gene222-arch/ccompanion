@@ -50,9 +50,9 @@ class ScheduleController extends Controller
         $schedules = $schedules
             ->with([
                 'course',
+                'details',
                 'department'
             ])
-            ->withCount('details')
             ->get();
 
         return view('app.schedule.index', [
