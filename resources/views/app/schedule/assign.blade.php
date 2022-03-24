@@ -107,7 +107,7 @@
                     <strong>Units</strong>
                 </div>
                 <div class="col text-secondary">
-                    {{ $schedule->details->map->subject->sum('units') }}
+                    {{ $schedule->details->map->subject->unique()->sum('units') }}
                 </div>
             </div>
         </div>
