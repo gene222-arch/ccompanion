@@ -15,6 +15,7 @@ use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditTrailController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SerialCodeController;
@@ -45,8 +46,8 @@ Route::middleware('auth')->group(function ()
     {
         Route::controller(AccountController::class)->group(function ()
         {
-            Route::get('/', 'index')->name('index')->middleware('password.confirm');
-            Route::post('/change-password', 'changePassword')->name('change.password');
+            Route::get('/', 'index')->name('index');
+            Route::post('/change-password', 'changePassword')->name('change.password')->middleware('password.confirm');;
         });
     });
 
@@ -72,6 +73,12 @@ Route::middleware('auth')->group(function ()
             Route::put('/student-access/{studentID}/{schedule}', 'toggleStudentAccess')->name('toggle.student.access');
         });
     });
+
+    Route::resource('chats', ChatController::class)
+        ->except([
+            'create',
+            'edit'
+        ]);
 
     Route::resource('professors', ProfessorController::class);
     Route::resource('schedules', ScheduleController::class);

@@ -107,7 +107,7 @@
                     <strong>Units</strong>
                 </div>
                 <div class="col text-secondary">
-                    {{ $schedule->details->map->subject->sum('units') }}
+                    {{ $schedule->details->map->subject->unique()->sum('units') }}
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@
                         </label>
                         <ul class="list-group">
                             <div class="row">
-                                @foreach ($students as $student)
+                                @forelse ($students as $student)
                                     <div class="col-12 col-sm-12 col-md-6">
                                         <div class="list-group-item">
                                             <div class="form-check ml-1">
@@ -164,7 +164,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+
+                                @empty
+                                    <p class="text-center mt-3 text-secondary">No Students Available</p>
+                                @endforelse
                             </div>
                         </ul>
                     </div>

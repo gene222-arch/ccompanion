@@ -96,6 +96,14 @@
                                 {{ $schedule->course->name }}
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Section</strong>
+                            </div>
+                            <div class="col text-secondary">
+                                {{ $schedule->section }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
