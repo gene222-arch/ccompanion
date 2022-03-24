@@ -87,6 +87,8 @@ class ScheduleController extends Controller
                 [ 'department_id', $schedule->department_id ]
             ])
             ->get();
+            
+        $students = $students->filter(fn ($student) => !$student->activeSchedule());
 
         if ($finalizedStudentIDs->count()) {
             $students = $students->filter(fn ($student) => $finalizedStudentIDs->search($student->id) || $finalizedStudentIDs->search($student->id) === 0);
