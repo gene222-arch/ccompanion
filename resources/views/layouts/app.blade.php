@@ -32,7 +32,7 @@
                 <a class="navbar-brand" href="{{ url('/home-page') }}">
                     <img class="img img-responsive" src="{{ asset("logo.png") }}" width="100" height="80">
                 </a>
-                @if (! Auth::check())
+                @if (!request()->is('login') && !Auth::check())
                     <a class="btn btn-outline-light" href="{{ route('login') }}">{{ __('Sign In') }}</a>
                 @endif
             </div>
