@@ -85,18 +85,18 @@
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
 					<a href="/registrars">
-						<i class="fa-solid fa-user-tie mr-4 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
+						<i class="fa-solid fa-user-tie mr-3 {{ request()->is('registrars') || request()->is('registrars/*') ? 'text-info' : '' }}"></i> 
 					Registrars</a>
 				</li>
 				<li class="{{ request()->is('audit-trails') || request()->is('audit-trails/*') ? 'active' : '' }}">
 					<a href="/audit-trails">
-						<i class="fa-solid fa-book-open mr-4 {{ request()->is('audit-trails') || request()->is('audit-trails/*') ? 'text-info' : '' }}"></i> 
+						<i class="fa-solid fa-book-open mr-3 {{ request()->is('audit-trails') || request()->is('audit-trails/*') ? 'text-info' : '' }}"></i> 
 					Audit Trail</a>
 				</li>
 			@endhasanyrole
 			<li>
 				<a href="#" class="nav-link" onclick="document.getElementById('logout__form').submit()">
-					<p><i class="fa-solid fa-arrow-right-from-bracket mr-4"></i>Logout</p>
+					<p><i class="fa-solid fa-arrow-right-from-bracket mr-3"></i>Logout</p>
 					<form action="{{ route('logout') }}" method="POST" id="logout__form">
 						@csrf
 					</form>
