@@ -66,6 +66,14 @@
                                 {{ $schedule->course->name }}
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Section</strong>
+                            </div>
+                            <div class="col text-secondary">
+                                {{ $schedule->section }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,7 +132,8 @@
     <script>
         $(document).ready( function () {
             $('#schedules').DataTable({
-                pageLength: 5
+                pageLength: 5,
+                "order": [[ 6, "DESC" ]]
             });
         });
     </script>
