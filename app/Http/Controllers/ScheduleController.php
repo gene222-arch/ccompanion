@@ -53,6 +53,7 @@ class ScheduleController extends Controller
                 'details',
                 'department'
             ])
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('app.schedule.index', [

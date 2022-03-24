@@ -21,7 +21,7 @@ class AuditTrailController extends Controller
     public function __invoke(Request $request)
     {
         return view('app.audit-trail.index', [
-            'auditTrails' => AuditTrail::all()
+            'auditTrails' => AuditTrail::orderBy('created_at', 'DESC')->get()
         ]);
     }
 }
