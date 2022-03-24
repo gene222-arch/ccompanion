@@ -101,7 +101,7 @@ class GradeController extends Controller
 
         return Redirect::route('students.index')
             ->with([
-                'successMessage' => 'Student graded successfully.'
+                'successMessage' => $student->first_name . '`s grade updated successfully.'
             ]);
     }
 
