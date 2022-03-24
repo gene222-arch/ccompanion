@@ -225,7 +225,7 @@
         $(document).ready( function () {
             $('#schedules').DataTable({
                 pageLength: 5,
-                "order": [[ 4, "ASC" ]]
+                "order": []
             });
         });
     </script>

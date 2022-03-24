@@ -87,19 +87,21 @@ class GradeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Grade\StoreRequest  $request
+     * @param  \App\Models\Student  $student
      * @param \App\Services\GradeService  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, GradeService $service)
+    public function update(StoreRequest $request, Student $student, GradeService $service)
     {
         $service->update(
+            $student,
             Schedule::find($request->schedule_id),
             $request->except('schedule_id')
         );
 
         return Redirect::route('students.index')
             ->with([
-                'successMessage' => 'Student graded successfully.'
+                'successMessage' => $student->first_name . '`s grade updated successfully.'
             ]);
     }
 

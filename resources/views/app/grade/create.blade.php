@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('grades.update') }}" method="post">
+            <form action="{{ route('grades.update', $student->id) }}" method="post">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">

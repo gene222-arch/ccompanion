@@ -33,6 +33,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/navbar.js') }}"></script>
+    <script>
+        const humanResourcePaths = [
+            '/administrators',
+            '/students',
+            '/registrars',
+            '/professors'
+        ];
+
+        const schoolPaths = [
+            '/courses',
+            '/departments',
+            '/subjects'
+        ];
+
+        if (humanResourcePaths.filter(path => path.match(location.pathname)).length) {
+            $('#humanResources').collapse('show');
+        }
+
+        if (schoolPaths.filter(path => path.match(location.pathname)).length) {
+            $('#school').collapse('show');
+        }
+        
+    </script>
     @yield('js')
 </body>
 </html>
