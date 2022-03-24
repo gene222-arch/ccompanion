@@ -1,16 +1,17 @@
 <?php 
 namespace App\Services;
 
+use App\Models\Student;
 use App\Models\Schedule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class GradeService
 {
-    public function update(Schedule $schedule, array $subjectGrades): bool|string
+    public function update(Student $student, Schedule $schedule, array $subjectGrades): bool|string
     {
         try {
-            DB::transaction(function () use ($schedule, $subjectGrades)
+            DB::transaction(function () use ($student, $schedule, $subjectGrades)
             {
                 $studentGrades = $schedule->studentGrades;
 
@@ -19,25 +20,30 @@ class GradeService
                     $subjectID = Str::replace('subject_id_', '', $subjectID);
                     $grade = floatval($value);
 
-                    $studentGrades->map(function ($studentGrade) use ($subjectID, $grade)
+                    $studentGrades->map(function ($studentGrade) use ($student, $subjectID, $grade)
                     {
-                        if ($subjectID == $studentGrade->subject_id) 
+                        if (
+                            ($subjectID == $studentGrade->subject_id) && 
+                            ($studentGrade->student_id === $student->id)
+                        )
                         {
                             if (! $grade) {
                                 $studentGrade->update([
+                                    'grade' => $grade,
                                     'status' => "Incomplete"
                                 ]);
                             }
 
+                            if ($grade) 
+                            {
+                                $gpe = $this->gradePointEquivalence($grade);
 
-                            $gpe = $this->gradePointEquivalence($grade);
-
-                            if ($grade) {
-                                $studentGrade->update([
-                                    'grade' => $grade,
-                                    'grade_point_equivalence' => $gpe,
-                                    'status' => $grade >= 60 ? 'Passed' : 'Failed'
-                                ]);
+                                $studentGrade
+                                    ->update([
+                                        'grade' => $grade,
+                                        'grade_point_equivalence' => $gpe,
+                                        'status' => $grade >= 60 ? 'Passed' : 'Failed'
+                                    ]);
                             }
                         }
                     });

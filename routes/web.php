@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function ()
             Route::get('/tor', 'index')->name('index');
             Route::get('/tor/{schedule}/students/{student}', 'show')->name('show');
             Route::get('/create/{student}', 'edit')->name('edit');
-            Route::put('/', 'update')->name('update');
+            Route::put('/{student}', 'update')->name('update');
             Route::put('/student-access/{studentID}/{schedule}', 'toggleStudentAccess')->name('toggle.student.access');
         });
     });
