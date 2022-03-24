@@ -14,7 +14,7 @@ class ScheduleService
     {
         $courseCode = Course::find($courseID)->code;
 
-        $id = Schedule::all()->count() ? Schedule::all()->last()->value('id') + 1 : 1;
+        $id = Schedule::all()->count() ? Schedule::all()->last()->id + 1 : 1;
         $length = Str::length($id);
 
         $prependZeros = match($length) {
