@@ -36,7 +36,7 @@ class GradeService
                                 $studentGrade->update([
                                     'grade' => $grade,
                                     'grade_point_equivalence' => $gpe,
-                                    'status' => $gpe >= 3.00 ? 'Passed' : 'Failed'
+                                    'status' => $grade >= 60 ? 'Passed' : 'Failed'
                                 ]);
                             }
                         }

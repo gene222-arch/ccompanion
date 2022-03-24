@@ -75,11 +75,13 @@
 					<i class="fa-solid fa-comment-dots mr-3 {{ request()->is('chats') || request()->is('chats/*') ? 'text-info' : '' }}"></i> 
 				Chats</a>
 			</li>
-			<li class="{{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'active' : '' }}">
-				<a href="/grades/tor">
-					<i class="fa-solid fa-copy mr-3 {{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'text-info' : '' }}"></i> 
-				TOR</a>
-			</li>
+			@hasrole('Student')
+				<li class="{{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'active' : '' }}">
+					<a href="/grades/tor">
+						<i class="fa-solid fa-copy mr-3 {{ request()->is('grades/tor') || request()->is('grades/tor/*') ? 'text-info' : '' }}"></i> 
+					TOR</a>
+				</li>
+			@endhasrole
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="{{ request()->is('registrars') || request()->is('registrars/*') ? 'active' : '' }}">
 					<a href="/registrars">
