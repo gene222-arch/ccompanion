@@ -53,6 +53,7 @@ class ScheduleController extends Controller
                 'details',
                 'department'
             ])
+            ->orderBy('is_finalized')
             ->orderBy('created_at', 'DESC')
             ->get();
 
