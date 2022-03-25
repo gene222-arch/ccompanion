@@ -56,7 +56,7 @@ class AnnouncementController extends Controller
 
             $newFileName = $imageName . '-' . time() . ".{$ext}";
 
-            $image->storePubliclyAs('public/announcement-images/', $newFileName);
+            $image->storeAs('public/announcement-images/', $newFileName);
             $path = "announcement-images/{$newFileName}";
         }
 
@@ -119,7 +119,7 @@ class AnnouncementController extends Controller
 
             $newFileName = $imageName . '-' . time() . ".{$ext}";
 
-            $image->storePubliclyAs('public/announcement-images/', $newFileName);
+            $image->storeAs('public/announcement-images/', $newFileName);
             $path = "announcement-images/{$newFileName}";
         }
 
