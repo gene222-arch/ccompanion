@@ -138,6 +138,40 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="start_date">Start Date</label>
+                                    <input 
+                                        id="start_date" 
+                                        type="date" 
+                                        class="form-control @error('start_date') is-invalid @enderror"
+                                        name="start_date"
+                                        value="{{ old('start_date') }}"
+                                    >
+                                    @error('start_date')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="end_date">End Date</label>
+                                    <input 
+                                        id="end_date" 
+                                        type="date" 
+                                        class="form-control @error('end_date') is-invalid @enderror"
+                                        name="end_date"
+                                        value="{{ old('end_date') }}"
+                                    >
+                                    @error('end_date')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-12 mt-5 text-right">
                                 <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-success">Save</button>

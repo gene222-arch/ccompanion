@@ -26,7 +26,9 @@ class Schedule extends Model
         'section',
         'is_finalized',
         'is_semester_finished',
-        'is_assigned_students_finalized'
+        'is_assigned_students_finalized',
+        'start_date',
+        'end_date'
     ];
 
     public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
