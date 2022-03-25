@@ -29,6 +29,43 @@ class ScheduleService
         return $uniqueID;
     }
 
+    public function finalizeAssignedStudents(Schedule $schedule)
+    {
+        try {
+            $upcomingYear = function (int $year): int {
+                return match($year) {
+                    1 => 2,
+                    2 => 3,
+                    3 => 4
+                };
+            };
+
+            DB::transaction(function () use ($schedule, $upcomingYear)
+            {
+                $schedule->update([
+                    'is_assigned_students_finalized' => true
+                ]);
+        
+                $data = [
+                    'year_level' => $schedule->year_level,
+                    'semester' => $schedule->semester_type,
+                    'upcoming_year_level' => $schedule->semester_type === 'Second' ? $upcomingYear($schedule->year_level) : $schedule->year_level,
+                    'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
+                ];
+
+                $schedule
+                    ->studentGrades
+                    ->map
+                    ->student
+                    ->map(fn ($student) => $student->educationalLevel()->updateOrCreate($data, $data));
+            });
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+
+        return true;
+    }
+
     public function assign(Schedule $schedule, array $studentIDs): bool|string
     {
         try {

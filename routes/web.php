@@ -18,6 +18,7 @@ use App\Http\Controllers\AuditTrailController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ImportsController;
 use App\Http\Controllers\SerialCodeController;
 
 /*
@@ -120,5 +121,14 @@ Route::middleware('auth')->group(function ()
         Route::post('registration-form/{student}/schedules/{schedule}', [ExportController::class, 'registrationForm'])
             ->name('registration.form');
 
+    });
+    
+    Route::group([
+        'prefix' => 'imports',
+        'as' => 'imports.'
+    ], function () 
+    {
+        Route::post('student-grades/{schedule}', [ImportsController::class, 'grades'])
+            ->name('student.grades');
     });
 });

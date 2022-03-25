@@ -101,6 +101,24 @@
             </div>
         </div>
     </div>
+    @if ($schedule->is_assigned_students_finalized)
+        <div class="py-3 mb-3">
+            <form action="{{ route('imports.student.grades', $schedule->id) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="row align-items-center text-right">
+                    <div class="col-6"></div>
+                    <div class="col-5">
+                        <input id="excel_file" type="file" class="form-control"  name="excel_file">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success" data-toggle='tooltip' data-placement='left' title="Import Excel File">
+                            <i class="fa-solid fa-file-excel"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <form action="{{ route('schedules.assign', $schedule->id) }}" method="post">
