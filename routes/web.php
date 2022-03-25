@@ -31,7 +31,7 @@ use App\Http\Controllers\SerialCodeController;
 |
 */
 
-Route::get('/', [PageController::class, 'welcome']);
+Route::get('/home-page', [PageController::class, 'welcome']);
 
 Auth::routes([
     'register' => false

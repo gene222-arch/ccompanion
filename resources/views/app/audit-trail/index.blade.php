@@ -16,6 +16,7 @@
                 <tr>
                     <th>Action</th>
                     <th>Model</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                         <td>
                             {{ Str::substr($auditTrail->audit_trailable_type, 11) }}
                         </td>
+                        <td>{{ \Carbon\Carbon::parse($auditTrail->created_at)->format('M d Y') }}</td>
                     </tr>
                 @endforeach
             </tbody>

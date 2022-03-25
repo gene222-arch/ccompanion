@@ -65,14 +65,12 @@ class GradeController extends Controller
 
     public function show(int $scheduleID, int $studentID)
     {
-        $schedule = Schedule::with('studentGrades.subject')
-            ->whereRelation(
-                'studentGrades', 
-                fn ($q) => $q->where([
-                    ['student_id', $studentID], 
-                    [ 'is_accessible_to_student', true ]
-                ])
-            )
+        $schedule = Schedule::with([
+            'studentGrades.subject',
+            'studentGrades' => fn ($q) => $q->where([
+                ['student_id', $studentID], 
+                [ 'is_accessible_to_student', true ]
+        ])])
             ->find($scheduleID);
 
         $student = Student::with(['user', 'course', 'department'])->find($studentID);

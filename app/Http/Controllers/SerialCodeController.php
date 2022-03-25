@@ -14,7 +14,7 @@ class SerialCodeController extends Controller
 
         $message = match($exists) {
             true => [
-                'successMessage' => 'Serial Code verified successfully.'
+                'successMessage' => 'Document verified successfully.'
             ],
             false => [
                 'errorMessage' => 'Serial code is invalid.'

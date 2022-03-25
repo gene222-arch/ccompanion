@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function welcome()
     {
         $announcements = Announcement::where('enabled', 1)->get();

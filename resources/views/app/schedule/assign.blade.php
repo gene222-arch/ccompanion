@@ -1,18 +1,7 @@
 @extends('layouts.main')
 
-@section('js')
-    <script>
-        document
-            .querySelector('.select-all-input')
-            .addEventListener('change', function () 
-            {
-                const checkboxes = document.querySelectorAll('.student-checkbox');
-
-                for (var checkbox of checkboxes) {
-                    checkbox.checked = this.checked;
-                }
-            });
-    </script>
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 @endsection
 
 @section('content')
@@ -144,31 +133,35 @@
                             {{ $schedule->is_assigned_students_finalized ? 'Selected' : 'Select' }} Students
                         </label>
                         <ul class="list-group">
-                            <div class="row">
-                                @forelse ($students as $student)
-                                    <div class="col-12 col-sm-12 col-md-6">
-                                        <div class="list-group-item">
-                                            <div class="form-check ml-1">
-                                                <input 
-                                                    id="student{{ $student->id }}"
-                                                    name="student_ids[]" 
-                                                    class="form-check-input student-checkbox" 
-                                                    type="checkbox" 
-                                                    value="{{ $student->id }}" 
-                                                    @disabled($schedule->is_assigned_students_finalized)
-                                                    {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
-                                                >
-                                                <label class="form-check-label" for="student{{ $student->id }}">
-                                                <i class="mr-2">{{ $student->code }}</i> {{ $student->user->name }}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                @empty
-                                    <p class="text-center mt-3 text-secondary">No Students Available</p>
-                                @endforelse
-                            </div>
+                            <table id="students" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($students as $student)
+                                        <tr>
+                                            <td>
+                                                <div class="form-check ml-1">
+                                                    <input 
+                                                        id="student{{ $student->id }}"
+                                                        name="student_ids[]" 
+                                                        class="form-check-input student-checkbox" 
+                                                        type="checkbox" 
+                                                        value="{{ $student->id }}" 
+                                                        @disabled($schedule->is_assigned_students_finalized)
+                                                        {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
+                                                    >
+                                                    <label class="form-check-label" for="student{{ $student->id }}">
+                                                    <i class="mr-2">{{ $student->code }}</i> {{ $student->user->name }}
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </ul>
                     </div>
                     @if (! $schedule->is_assigned_students_finalized)
@@ -181,4 +174,29 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#students').DataTable({
+                pageLength: 5,
+                "order": []
+            });
+        });
+    </script>
+        <script>
+            document
+                .querySelector('.select-all-input')
+                .addEventListener('change', function () 
+                {
+                    const checkboxes = document.querySelectorAll('.student-checkbox');
+    
+                    for (var checkbox of checkboxes) {
+                        checkbox.checked = this.checked;
+                    }
+                });
+        </script>
 @endsection
