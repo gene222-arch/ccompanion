@@ -198,40 +198,40 @@
                 if (chat.type === 'receiver')
                 {
                     document.querySelector('.chat-rows')
-                    .innerHTML += `
-                        <div class="col-7 my-4" id="chatID${ chat.id }">
-                            <div style="width: auto;">
-                                <div class="row align-items-center">
-                                    <div class="col-1">
-                                        <span 
-                                            class="badge rounded-pill bg-dark p-2" 
-                                            style="cursor: pointer;"
-                                            data-toggle='tooltip'
-                                            data-placement='right'
-                                            title="${ user.name }"
-                                        >
-                                            <span class="fa-1x">${ user.name.substr(0, 1) }</span>
-                                        </span>
-                                    </div>
-                                    <div class="col-11">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <div class="border border-dark rounded p-2" style="width: fit-content;">
-                                                    ${ chat.message }
+                        .innerHTML += `
+                            <div class="col-7 my-4" id="chatID${ chat.id }">
+                                <div style="width: auto;">
+                                    <div class="row align-items-center">
+                                        <div class="col-1">
+                                            <span 
+                                                class="badge rounded-pill bg-dark p-2" 
+                                                style="cursor: pointer;"
+                                                data-toggle='tooltip'
+                                                data-placement='right'
+                                                title="${ user.name }"
+                                            >
+                                                <span class="fa-1x">${ user.name.substr(0, 1) }</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <div class="border border-dark rounded p-2" style="width: fit-content;">
+                                                        ${ chat.message }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col">
-                                            ${  
-                                                authUserID === user.id && 
-                                                    `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
-                                            }
+                                                <div class="col">
+                                                ${  
+                                                    authUserID === user.id && 
+                                                        `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
+                                                }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                 }
 
                 if (chat.type === 'sender')
