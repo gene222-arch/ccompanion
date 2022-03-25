@@ -35,23 +35,25 @@
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script>
         const humanResourcePaths = [
-            '/administrators',
-            '/students',
-            '/registrars',
-            '/professors'
+            'administrators',
+            'students',
+            'registrars',
+            'professors'
         ];
 
         const schoolPaths = [
-            '/courses',
-            '/departments',
-            '/subjects'
+            'courses',
+            'departments',
+            'subjects'
         ];
 
-        if (humanResourcePaths.filter(path => path.match(location.pathname)).length) {
+        const currentPath = location.pathname.substr(1);
+
+        if (humanResourcePaths.includes(currentPath)) {
             $('#humanResources').collapse('show');
         }
 
-        if (schoolPaths.filter(path => path.match(location.pathname)).length) {
+        if (humanResourcePaths.includes(currentPath)) {
             $('#school').collapse('show');
         }
         
