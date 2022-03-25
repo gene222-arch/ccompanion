@@ -291,16 +291,19 @@ class ScheduleController extends Controller
             ]);
     }
 
-    public function finalizeAssignedStudents(Schedule $schedule)
+    public function finalizeAssignedStudents(Schedule $schedule, ScheduleService $service)
     {
-        $schedule->update([
-            'is_assigned_students_finalized' => true
-        ]);
-
-        return Redirect::route('schedules.assign', $schedule->id)
-            ->with([
-                'successMessage' => "{$schedule->code} assigned students was finalized successfully."
-            ]);
+        $result = $service->finalizeAssignedStudents($schedule);
+    
+        return gettype($result) === 'string'
+            ? Redirect::route('schedules.assign', $schedule->id)
+                ->with([
+                    'errorMessage' => $result
+                ])
+            : Redirect::route('schedules.assign', $schedule->id)
+                ->with([
+                    'successMessage' => "{$schedule->code} assigned students was finalized successfully."
+                ]);
     }
 
     /**
