@@ -77,18 +77,17 @@ class ScheduleController extends Controller
 
     public function assignView(Schedule $schedule)
     {
-        $students = Student::with([
-            'user:id,name',
-            'educationalLevel' => fn ($q) => $q->where([
-                [ 'upcoming_year_level', $schedule->year_level ],
-                [ 'upcoming_semester', $schedule->semester_type ]
-            ])
-        ])
+        $students = Student::with('user:id,name')
             ->where([
                 [ 'course_id', $schedule->course_id ],
                 [ 'department_id', $schedule->department_id ]
             ])
             ->get();
+
+        $students = $students->filter(function ($student) use ($schedule) {
+            return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
+                ($student->educationalLevel->upcoming_semester === $schedule->semester_type);
+        });
 
         if ($schedule->is_assigned_students_finalized) {
             $studentIDs = $schedule->studentGrades->map->student_id;
