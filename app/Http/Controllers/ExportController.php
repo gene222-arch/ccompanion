@@ -70,6 +70,7 @@ class ExportController extends Controller
         $serialCode = SerialCode::first();
         $schedule = Schedule::query()
             ->with([
+                'studentGrades' => fn ($q) => $q->where('student_id', $studentID),
                 'studentGrades.subject',
                 'details.professor'
             ])

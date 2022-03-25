@@ -83,8 +83,11 @@ class ScheduleController extends Controller
                 [ 'department_id', $schedule->department_id ]
             ])
             ->get();
-            
-        $students = $students->filter(fn ($student) => !$student->activeSchedule());
+
+        if ($schedule->is_assigned_students_finalized) {
+            $studentIDs = $schedule->studentGrades->map->student_id;
+            $students = $students->filter(fn ($student) => $studentIDs->search($student->id) !== false);
+        }
 
         $schedule = Schedule::query()
             ->with([

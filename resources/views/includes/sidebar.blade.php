@@ -19,6 +19,7 @@
 			<li class="mb-3 {{ request()->is('/') ? 'active' : '' }}">
 				<a href="/"><span class="fa-solid fa-home mr-3 {{ request()->is('/') ? 'text-info' : '' }}"></span> Dashboard</a>
 			</li>
+			@if(Auth::user()->roles->first()->name !== 'Student')
 			<p class="mt-2 border-bottom border-secondary">
 				<i class="fa-solid fa-people-group" style="color: gainsboro"></i>
 				<a class="btn btn-primary human-resources-collapse-btn" data-bs-toggle="collapse" href="#humanResources" role="button" aria-expanded="false" aria-controls="humanResources">
@@ -78,6 +79,7 @@
 					@endhasanyrole
 				</div>
 			</p>
+			@endif 
 			@hasanyrole('Super Administrator|Administrator')
 				<li class="mb-3 {{ request()->is('announcements') || request()->is('announcements/*') ? 'active' : '' }}">
 					<a href="/announcements">

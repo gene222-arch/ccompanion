@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use App\Models\Schedule;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class EndSemesterCommand extends Command
 {
@@ -29,16 +30,54 @@ class EndSemesterCommand extends Command
      */
     public function handle()
     {
-        $schedules = Schedule::all();
+        $schedules = Schedule::query()->with('studentGrades.student')->where('is_semester_finished', false)->get();
 
-        $schedules->map(function ($schedule) 
+        $upcomingYear = function (int $year): int {
+            return match($year) {
+                1 => 2,
+                2 => 3,
+                3 => 4
+            };
+        };
+
+        $schedules->map(function ($schedule)  use ($upcomingYear)
         {
             $endDate = Carbon::parse($schedule->end_date);
 
-            if ($endDate->isPast()) {
-                $schedule->update([
-                    'is_semester_finished' => true
-                ]);
+            if ($endDate->isPast()) 
+            {
+                try {
+                    DB::transaction(function () use ($schedule, $upcomingYear)
+                    {
+                        $schedule->update([
+                            'is_semester_finished' => true
+                        ]);
+        
+                        $schedule
+                            ->studentGrades
+                            ->map
+                            ->student
+                            ->unique()
+                            ->each(function ($student) use ($schedule, $upcomingYear)
+                            {
+                                $student
+                                    ->educationalLevel()
+                                    ->updateOrCreate([
+                                        'year_level' => $schedule->year_level,
+                                        'semester' => $schedule->semester_type,
+                                        'upcoming_year_level' => $upcomingYear($schedule->year_level),
+                                        'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
+                                    ], [
+                                        'year_level' => $schedule->year_level,
+                                        'semester' => $schedule->semester_type,
+                                        'upcoming_year_level' => $upcomingYear($schedule->year_level),
+                                        'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
+                                    ]);
+                            });
+                    });
+                } catch (\Throwable $th) {
+                    dd($th->getMessage());
+                }
             }
         });
     }

@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Department;
 use App\Traits\HasAuditTrail;
+use App\Models\EducationalLevel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -81,5 +82,10 @@ class Student extends Model
                 [ 'is_semester_finished', false ]
             ])
             ->count();
+    }
+
+    public function educationalLevel(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(EducationalLevel::class);
     }
 }
