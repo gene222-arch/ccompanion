@@ -77,7 +77,13 @@ class ScheduleController extends Controller
 
     public function assignView(Schedule $schedule)
     {
-        $students = Student::with('user:id,name')
+        $students = Student::with([
+            'user:id,name',
+            'educationalLevel' => fn ($q) => $q->where([
+                [ 'upcoming_year_level', $schedule->year_level ],
+                [ 'upcoming_semester', $schedule->semester_type ]
+            ])
+        ])
             ->where([
                 [ 'course_id', $schedule->course_id ],
                 [ 'department_id', $schedule->department_id ]

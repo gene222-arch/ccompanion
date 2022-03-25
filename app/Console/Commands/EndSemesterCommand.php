@@ -60,19 +60,16 @@ class EndSemesterCommand extends Command
                             ->unique()
                             ->each(function ($student) use ($schedule, $upcomingYear)
                             {
+                                $data = [
+                                    'year_level' => $schedule->year_level,
+                                    'semester' => $schedule->semester_type,
+                                    'upcoming_year_level' => $schedule->semester_type === 'Second' ? $upcomingYear($schedule->year_level) : $schedule->year_level,
+                                    'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
+                                ];
+
                                 $student
                                     ->educationalLevel()
-                                    ->updateOrCreate([
-                                        'year_level' => $schedule->year_level,
-                                        'semester' => $schedule->semester_type,
-                                        'upcoming_year_level' => $upcomingYear($schedule->year_level),
-                                        'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
-                                    ], [
-                                        'year_level' => $schedule->year_level,
-                                        'semester' => $schedule->semester_type,
-                                        'upcoming_year_level' => $upcomingYear($schedule->year_level),
-                                        'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
-                                    ]);
+                                    ->updateOrCreate($data, $data);
                             });
                     });
                 } catch (\Throwable $th) {
