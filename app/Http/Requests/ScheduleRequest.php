@@ -28,7 +28,9 @@ class ScheduleRequest extends FormRequest
             'course_id' => ['required', 'integer', 'exists:courses,id'],
             'semester_type' => ['required', 'string', 'in:First,Second'],
             'year_level' => ['required', 'integer', 'min:1', 'max:4'],
-            'section' => ['required', 'string']
+            'section' => ['required', 'string'],
+            'start_date' => ['required', 'date', 'before:tomorrow'],
+            'end_date' => ['required', 'date', 'after:start_date']
         ];
     }
 }
