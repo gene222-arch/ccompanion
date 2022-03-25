@@ -41,6 +41,8 @@ class EndSemesterCommand extends Command
                 $schedule->update([
                     'is_semester_finished' => true
                 ]);
+
+                $schedule->delete();
             }
         });
     }
