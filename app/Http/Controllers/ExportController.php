@@ -74,8 +74,12 @@ class ExportController extends Controller
                 'studentGrades.subject',
                 'details.professor'
             ])
-            ->withAvg('studentGrades', 'grade')
-            ->withAvg('studentGrades', 'grade_point_equivalence')
+            ->withAvg([
+                'studentGrades' => fn ($q) => $q->where('student_id', $studentID)
+            ], 'grade')
+            ->withAvg([
+                'studentGrades' => fn ($q) => $q->where('student_id', $studentID)
+            ], 'grade_point_equivalence')
             ->find($scheduleID);
 
         $totalUnits = $schedule->studentGrades->sum(fn ($sg) => $sg->subject->units);
