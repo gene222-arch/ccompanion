@@ -222,8 +222,10 @@
                                                 </div>
                                                 <div class="col">
                                                 ${  
-                                                    authUserID === user.id && 
+                                                    authUserID === user.id  
+                                                        ?
                                                         `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
+                                                        : ''
                                                 }
                                                 </div>
                                             </div>
@@ -244,8 +246,9 @@
                                     <div class="row align-items-center">
                                         <div class="col">
                                             ${  
-                                                authUserID === user.id && 
+                                                authUserID === user.id ?
                                                     `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
+                                                : ''
                                             }
                                         </div>
                                         <div class="col">
