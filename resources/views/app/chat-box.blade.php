@@ -156,14 +156,13 @@
                     .addEventListener('click', function (e) 
                     {
                        const chatID = deleteIconElement.getAttribute('value');
-                       console.log(chatID);
+
                        $('#deleteMessageConfirmationModal').modal('show');
 
                        $('.delete-message-btn').click(() => 
                        {
                             axios.delete(`/chats/${ chatID }`)
                                 .then(res => {
-                                    $(`#chatID${ chatID }`).hide();
                                     $('#deleteMessageConfirmationModal').modal('hide');
                                 })
                                 .catch(err => console.log(err));
@@ -275,6 +274,11 @@
                         </div>
                     `;
                 }
+            });
+
+        Echo.channel('message.deleted.event')
+            .listen('MessageDeletedEvent', ({ chatID }) => {
+               $(`#chatID${ chatID }`).hide();
             });
     </script>
 @endsection
