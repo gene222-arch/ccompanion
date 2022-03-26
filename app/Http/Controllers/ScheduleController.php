@@ -84,7 +84,7 @@ class ScheduleController extends Controller
             ])
             ->get();
 
-        if (! $schedule->is_semester_finished)
+        if (!$schedule->is_semester_finished && !$schedule->is_assigned_students_finalized)
         {
             $students = $students->filter(function ($student) use ($schedule) {
                 return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
@@ -92,9 +92,10 @@ class ScheduleController extends Controller
             });
         }
 
-        if ($schedule->is_assigned_students_finalized) {
-            $assignedStudentIDs = $schedule->studentGrades->map->student_id;
-            $students = $students->filter(fn ($student) => $assignedStudentIDs->search($student->id) !== false);
+        if ($schedule->is_assigned_students_finalized) 
+        {
+            $assignedStudentIDs = $schedule->studentGrades->map->student_id->unique()->toArray();
+            $students = $students->filter(fn ($student) => in_array($student->id, $assignedStudentIDs));
         }
 
         $relations = [
