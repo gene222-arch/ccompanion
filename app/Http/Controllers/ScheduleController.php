@@ -37,7 +37,7 @@ class ScheduleController extends Controller
         $schedules = Schedule::query();
         $user = Auth::user();
 
-        if ($user->roles->first()->name === 'Student') 
+        if ($user->hasRole('Student')) 
         {
             $schedules->where([
                 [ 'is_assigned_students_finalized', true ],
@@ -54,7 +54,7 @@ class ScheduleController extends Controller
                 'department'
             ])
             ->orderBy('is_finalized')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
         return view('app.schedule.index', [

@@ -26,9 +26,16 @@
         <table id="schedules" class="table table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Department</th>
-                    <th>Course</th>
+                    @hasanyrole('Super Administrator|Administrator|Registrar')
+                        <th>ID</th>
+                        <th>Department</th>
+                        <th>Course</th>
+                    @endhasanyrole
+                    @hasrole('Student')
+                        <th>Year Level</th>
+                        <th>Semester</th>
+                        <th>Section</th>
+                    @endhasrole
                     <th>Subjects</th>
                     @hasanyrole('Super Administrator|Administrator|Registrar')
                         <th>Status</th>
@@ -39,23 +46,30 @@
             <tbody>
                 @foreach ($schedules as $schedule)
                     <tr>
-                        <td>
-                            @if (! $schedule->is_finalized)
-                                <a 
-                                    class="select-to-edit" 
-                                    href="{{ route('schedules.edit', $schedule->id) }}"
-                                    data-toggle="tooltip" 
-                                    data-placement="right" 
-                                    title="Edit selected schedule"
-                                >
+                        @hasanyrole('Super Administrator|Administrator|Registrar')
+                            <td>
+                                @if (! $schedule->is_finalized)
+                                    <a 
+                                        class="select-to-edit" 
+                                        href="{{ route('schedules.edit', $schedule->id) }}"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" 
+                                        title="Edit selected schedule"
+                                    >
+                                        {{ $schedule->code }}
+                                    </a>
+                                @else 
                                     {{ $schedule->code }}
-                                </a>
-                            @else 
-                                {{ $schedule->code }}
-                            @endif
-                        </td>
-                        <td>{{ $schedule->department->name }}</td>
-                        <td>{{ $schedule->course->name }}</td>
+                                @endif
+                            </td>
+                            <td>{{ $schedule->department->name }}</td>
+                            <td>{{ $schedule->course->name }}</td>
+                        @endhasanyrole
+                        @hasrole('Student')
+                            <td>{{ $schedule->year_level }}</td>
+                            <td>{{ $schedule->semester_type }}</td>
+                            <td>{{ $schedule->section }}</td>
+                        @endhasrole
                         <td>{{ $schedule->details->map->subject_id->unique()->count() }}</td>
                         @hasanyrole('Super Administrator|Administrator|Registrar')
                         <td>
@@ -225,7 +239,7 @@
         $(document).ready( function () {
             $('#schedules').DataTable({
                 pageLength: 5,
-                "order": []
+                // "order": []
             });
         });
     </script>
