@@ -202,10 +202,6 @@ class ScheduleController extends Controller
 
     public function showForStudent(Schedule $schedule, Student $student)
     {
-        $user = Auth::user();
-
-        $schedule = $user->student->activeSchedule();
-
         $schedule = Schedule::with([
             'details.subject',
             'details.professor'
