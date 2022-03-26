@@ -7,13 +7,16 @@ use App\Models\Schedule;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Services\GradeService;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithUpserts;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Throwable;
 
-class StudentGradesImport implements ToModel, WithHeadingRow, SkipsOnError
+class StudentGradesImport implements ToModel, WithHeadingRow, WithValidation, WithUpserts
 {
     use Importable;
 
@@ -46,8 +49,32 @@ class StudentGradesImport implements ToModel, WithHeadingRow, SkipsOnError
         ]);
     }
 
-    public function onError(Throwable $e)
+    public function rules(): array
     {
-        // dd($e->getMessage());
+        $studentIDs = $this->schedule->studentGrades->map->student->map->student_id->toArray();
+
+        return [
+            'student_id' => function($attribute, $value, $onFailure) use ($studentIDs) {
+                if (! in_array($value, $studentIDs)) {
+                     $onFailure('The selected student id is not included in the schedule.');
+                }
+            }
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            'student_id.in' => 'The selected student is not included in the schedule.',
+        ];
+    }
+
+    public function uniqueBy(): string|array
+    {
+        return [
+            'schedule_id',
+            'student_id',
+            'subject_id'
+        ];
     }
 }

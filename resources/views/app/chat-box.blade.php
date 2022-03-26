@@ -156,14 +156,13 @@
                     .addEventListener('click', function (e) 
                     {
                        const chatID = deleteIconElement.getAttribute('value');
-                       console.log(chatID);
+
                        $('#deleteMessageConfirmationModal').modal('show');
 
                        $('.delete-message-btn').click(() => 
                        {
                             axios.delete(`/chats/${ chatID }`)
                                 .then(res => {
-                                    $(`#chatID${ chatID }`).hide();
                                     $('#deleteMessageConfirmationModal').modal('hide');
                                 })
                                 .catch(err => console.log(err));
@@ -222,8 +221,10 @@
                                                 </div>
                                                 <div class="col">
                                                 ${  
-                                                    authUserID === user.id && 
+                                                    authUserID === user.id  
+                                                        ?
                                                         `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
+                                                        : ''
                                                 }
                                                 </div>
                                             </div>
@@ -244,8 +245,9 @@
                                     <div class="row align-items-center">
                                         <div class="col">
                                             ${  
-                                                authUserID === user.id && 
+                                                authUserID === user.id ?
                                                     `<i class='fa-solid fa-trash delete-message-icon' value='${ chat.id }' data-toggle='tooltip' data-placement='right' title='Remove'></i>`
+                                                : ''
                                             }
                                         </div>
                                         <div class="col">
@@ -272,6 +274,11 @@
                         </div>
                     `;
                 }
+            });
+
+        Echo.channel('message.deleted.event')
+            .listen('MessageDeletedEvent', ({ chatID }) => {
+               $(`#chatID${ chatID }`).hide();
             });
     </script>
 @endsection

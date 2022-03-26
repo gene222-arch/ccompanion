@@ -185,7 +185,7 @@
                     @if (! $schedule->is_assigned_students_finalized)
                         <div class="col-12 mt-5 text-right">
                             <a href="{{ route('schedules.index') }}" class="btn btn-outline-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="{{ ! $schedule->is_assigned_students_finalized ? 'submit' : 'button' }}" class="btn btn-success">Save</button>
                         </div>
                     @endif
                 </div>

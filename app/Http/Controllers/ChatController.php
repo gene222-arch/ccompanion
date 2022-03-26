@@ -68,7 +68,10 @@ class ChatController extends Controller
      */
     public function destroy(Chat $chat)
     {
+        $chatID = $chat->id;
         $chat->delete();
+        
+        event(new \App\Events\MessageDeletedEvent($chatID));
 
         return response()->json([
             'message' => 'Chat deleted successfully.'
