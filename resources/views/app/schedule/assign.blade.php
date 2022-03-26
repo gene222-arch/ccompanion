@@ -108,7 +108,7 @@
                 <div class="row align-items-center text-right">
                     <div class="col-6"></div>
                     <div class="col-5">
-                        <input id="excel_file" type="file" class="form-control"  name="excel_file">
+                        <input id="excel_file" type="file" class="form-control"  name="excel_file" multiple>
                     </div>
                     <div class="col">
                         <button type="submit" class="btn btn-success" data-toggle='tooltip' data-placement='left' title="Import Excel File">
