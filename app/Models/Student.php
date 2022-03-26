@@ -56,16 +56,13 @@ class Student extends Model
         return $this->hasMany(Grade::class);
     }
 
-    public function activeSchedule(): null|Schedule
+    public function activeSchedule(): ?Schedule
     {
-        if (! $this->grades) return null;
-
-        return $this
-            ->grades 
-            ->map 
-            ->schedule
-            ->filter(fn ($sched) => !$sched->is_semester_finished)
-            ->first();
+        return Schedule::firstWhere([
+            [ 'year_level', $this->educationalLevel->year_level ],
+            [ 'semester_type', $this->educationalLevel->semester ],
+            [ 'is_semester_finished', false ],
+        ]);
     }
 
     public function isScheduled(): bool
