@@ -35,7 +35,13 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedules = Schedule::query();
+        $isSchedulesTrashedOnly = false;
         $user = Auth::user();
+
+        if (request()->has('archives')) {
+            $schedules->onlyTrashed();
+            $isSchedulesTrashedOnly = true;
+        }
 
         if ($user->hasRole('Student')) 
         {
@@ -58,7 +64,8 @@ class ScheduleController extends Controller
             ->get();
 
         return view('app.schedule.index', [
-            'schedules' => $schedules
+            'schedules' => $schedules,
+            'isSchedulesTrashedOnly' => $isSchedulesTrashedOnly
         ]);
     }
 

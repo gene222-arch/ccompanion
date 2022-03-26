@@ -19,7 +19,36 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <small><strong class="text-info">Note</strong> Select the code of the schedule to edit</small>
+            <div class="row">
+                <div class="col">
+                    <small><strong class="text-info">Note</strong> Select the code of the schedule to edit</small>
+                </div>
+                @if (! $isSchedulesTrashedOnly)
+                    <div class="col text-right">
+                        <a 
+                            href="{{ route('schedules.index', [ 'archives' ]) }}" 
+                            class="btn btn-outline-secondary"
+                            data-toggle="tooltip"
+                            data-placement="left"
+                            title="Go to archives"
+                        >
+                            <i class="fa-solid fa-box-archive"></i>
+                        </a>
+                    </div>
+                @else 
+                <div class="col text-right">
+                    <a 
+                        href="{{ route('schedules.index') }}" 
+                        class="btn btn-secondary"
+                        data-toggle="tooltip"
+                        data-placement="left"
+                        title="Go to non - archives"
+                    >
+                        <i class="fa-solid fa-box-archive"></i>
+                    </a>
+                </div>
+                @endif
+            </div>
         </div>
     </div>
     <div class="card p-3">
