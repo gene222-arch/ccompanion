@@ -84,21 +84,26 @@ class ScheduleController extends Controller
             ])
             ->get();
 
-        $students = $students->filter(function ($student) use ($schedule) {
-            return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
-                ($student->educationalLevel->upcoming_semester === $schedule->semester_type);
-        });
-
-        if ($schedule->is_assigned_students_finalized) {
-            $studentIDs = $schedule->studentGrades->map->student_id;
-            $students = $students->filter(fn ($student) => $studentIDs->search($student->id) !== false);
+        if (! $schedule->is_semester_finished)
+        {
+            $students = $students->filter(function ($student) use ($schedule) {
+                return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
+                    ($student->educationalLevel->upcoming_semester === $schedule->semester_type);
+            });
         }
 
+        if ($schedule->is_assigned_students_finalized) {
+            $assignedStudentIDs = $schedule->studentGrades->map->student_id;
+            $students = $students->filter(fn ($student) => $assignedStudentIDs->search($student->id) !== false);
+        }
+
+        $relations = [
+            'details.subject',
+            'studentGrades'
+        ];
+
         $schedule = Schedule::query()
-            ->with([
-                'details.subject',
-                'studentGrades'
-            ])
+            ->with($relations)
             ->withCount('details')
             ->find($schedule->id);
 
