@@ -154,30 +154,41 @@
                             <table id="students" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>ID</th>
+                                        <th>Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($students as $student)
-                                        <tr>
-                                            <td>
-                                                <div class="form-check ml-1">
-                                                    <input 
-                                                        id="student{{ $student->id }}"
-                                                        name="student_ids[]" 
-                                                        class="form-check-input student-checkbox" 
-                                                        type="checkbox" 
-                                                        value="{{ $student->id }}" 
-                                                        @disabled($schedule->is_assigned_students_finalized)
-                                                        {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
-                                                    >
-                                                    <label class="form-check-label" for="student{{ $student->id }}">
-                                                    <i class="mr-2">{{ $student->code }}</i> {{ $student->user->name }}
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    @if (! $schedule->is_assigned_students_finalized)
+                                        @foreach ($students as $student)
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check ml-1">
+                                                        <input 
+                                                            id="student{{ $student->id }}"
+                                                            name="student_ids[]" 
+                                                            class="form-check-input student-checkbox" 
+                                                            type="checkbox" 
+                                                            value="{{ $student->id }}" 
+                                                            @disabled($schedule->is_assigned_students_finalized)
+                                                            {{ in_array($student->id, old('student_ids', $schedule->studentGrades?->map?->student_id?->toArray() ?? [])) ? 'checked' : '' }}
+                                                        >
+                                                        <label class="form-check-label" for="student{{ $student->id }}">
+                                                        {{ $student->student_id }}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $student->user->name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        @foreach ($students as $student)
+                                            <tr>
+                                                <td>{{ $student->student_id }}</td>
+                                                <td>{{ $student->user->name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </ul>
