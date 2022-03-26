@@ -10,7 +10,7 @@
             <div class="display-6">Administrators</div>
         </div>
         <div class="col text-right">
-            <a href="{{ route('administrators.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Accounts">
+            <a href="{{ route('administrators.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Administrator">
                 <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
             </a>
         </div>

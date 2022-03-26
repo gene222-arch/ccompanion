@@ -11,7 +11,7 @@
         </div>
         @hasanyrole('Super Administrator|Administrator|Registrar')
             <div class="col text-right">
-                <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Department">
+                <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Schedule">
                     <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
                 </a>
             </div>
