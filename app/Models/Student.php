@@ -59,8 +59,8 @@ class Student extends Model
     public function activeSchedule(): ?Schedule
     {
         return Schedule::firstWhere([
-            [ 'year_level', $this->educationalLevel->year_level ],
-            [ 'semester_type', $this->educationalLevel->semester ],
+            [ 'year_level', $this->educationalLevel?->year_level ],
+            [ 'semester_type', $this->educationalLevel?->semester ],
             [ 'is_semester_finished', false ],
         ]);
     }

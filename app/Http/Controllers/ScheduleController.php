@@ -94,8 +94,14 @@ class ScheduleController extends Controller
         if (!$schedule->is_semester_finished && !$schedule->is_assigned_students_finalized)
         {
             $students = $students->filter(function ($student) use ($schedule) {
-                return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
-                    ($student->educationalLevel->upcoming_semester === $schedule->semester_type);
+                if (! $student->educationalLevel) {
+                    return true;
+                }
+
+                if ($student->educationalLevel) {
+                    return ($student->educationalLevel?->upcoming_year_level === $schedule->year_level) &&
+                        ($student->educationalLevel?->upcoming_semester === $schedule->semester_type);
+                }
             });
         }
 
