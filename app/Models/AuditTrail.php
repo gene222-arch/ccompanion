@@ -13,6 +13,7 @@ class AuditTrail extends Model
         'action',
         'audit_trailable_id',
         'audit_trailable_type',
+        'action_done_by'
     ];
 
     /**
