@@ -45,7 +45,7 @@ class ScheduleService
                 $schedule->update([
                     'is_assigned_students_finalized' => true
                 ]);
-        
+
                 $data = [
                     'year_level' => $schedule->year_level,
                     'semester' => $schedule->semester_type,
@@ -53,11 +53,21 @@ class ScheduleService
                     'upcoming_semester' => $schedule->semester_type === 'First' ? 'Second' : 'First'
                 ];
 
+                # Delete current educational level
                 $schedule
                     ->studentGrades
                     ->map
                     ->student
-                    ->map(fn ($student) => $student->educationalLevel()->updateOrCreate($data, $data));
+                    ->unique()
+                    ->map(fn ($student) => $student->educationalLevel()->delete());
+
+                # Create new educational level
+                $schedule
+                    ->studentGrades
+                    ->map
+                    ->student
+                    ->unique()
+                    ->map(fn ($student) => $student->educationalLevel()->create($data));
             });
         } catch (\Throwable $th) {
             return $th->getMessage();

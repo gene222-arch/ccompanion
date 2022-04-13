@@ -10,7 +10,7 @@
             <div class="display-6">Professors</div>
         </div>
         <div class="col text-right">
-            <a href="{{ route('professors.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Accounts">
+            <a href="{{ route('professors.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Professor">
                 <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
             </a>
         </div>

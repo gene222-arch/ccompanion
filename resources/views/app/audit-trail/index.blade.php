@@ -14,6 +14,7 @@
         <table id="departments" class="table table-hover">
             <thead>
                 <tr>
+                    <th>Action Creator</th>
                     <th>Action</th>
                     <th>Model</th>
                     <th>Date</th>
@@ -22,6 +23,7 @@
             <tbody>
                 @foreach ($auditTrails as $auditTrail)
                     <tr>
+                        <td>{{ $auditTrail->action_done_by }}</td>
                         <td>
                             <span
                                 @class([

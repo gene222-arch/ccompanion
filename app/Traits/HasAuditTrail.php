@@ -16,19 +16,22 @@ Trait HasAuditTrail
 
         self::created(function ($model) {
             $model->auditTrails()->create([
-                'action' => 'Create'
+                'action' => 'Create',
+                'action_done_by' => auth()->user()->name
             ]);
         });
 
         self::updated(function ($model) {
             $model->auditTrails()->create([
-                'action' => 'Update'
+                'action' => 'Update',
+                'action_done_by' => auth()->user()->name
             ]);
         });
 
         self::deleted(function ($model) {
             $model->auditTrails()->create([
-                'action' => 'Delete'
+                'action' => 'Delete',
+                'action_done_by' => auth()->user()->name
             ]);
         });
     }

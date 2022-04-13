@@ -11,7 +11,7 @@
         </div>
         @hasanyrole('Super Administrator|Administrator|Registrar')
             <div class="col text-right">
-                <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Department">
+                <a href="{{ route('schedules.create') }}" class="p-2 px-4" data-toggle="tooltip" data-placement="right" title="Create New Schedule">
                     <i class="fa-solid fa-circle-plus fa-3x text-success create-button-icon"></i>
                 </a>
             </div>
@@ -19,16 +19,52 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <small><strong class="text-info">Note</strong> Select the code of the schedule to edit</small>
+            <div class="row">
+                <div class="col">
+                    <small><strong class="text-info">Note</strong> Select the code of the schedule to edit</small>
+                </div>
+                @if (! $isSchedulesTrashedOnly)
+                    <div class="col text-right">
+                        <a 
+                            href="{{ route('schedules.index', [ 'archives' ]) }}" 
+                            class="btn btn-outline-secondary"
+                            data-toggle="tooltip"
+                            data-placement="left"
+                            title="Go to archives"
+                        >
+                            <i class="fa-solid fa-box-archive"></i>
+                        </a>
+                    </div>
+                @else 
+                <div class="col text-right">
+                    <a 
+                        href="{{ route('schedules.index') }}" 
+                        class="btn btn-secondary"
+                        data-toggle="tooltip"
+                        data-placement="left"
+                        title="Go to non - archives"
+                    >
+                        <i class="fa-solid fa-box-archive"></i>
+                    </a>
+                </div>
+                @endif
+            </div>
         </div>
     </div>
     <div class="card p-3">
         <table id="schedules" class="table table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Department</th>
-                    <th>Course</th>
+                    @hasanyrole('Super Administrator|Administrator|Registrar')
+                        <th>ID</th>
+                        <th>Department</th>
+                        <th>Course</th>
+                    @endhasanyrole
+                    @hasrole('Student')
+                        <th>Year Level</th>
+                        <th>Semester</th>
+                        <th>Section</th>
+                    @endhasrole
                     <th>Subjects</th>
                     @hasanyrole('Super Administrator|Administrator|Registrar')
                         <th>Status</th>
@@ -39,23 +75,30 @@
             <tbody>
                 @foreach ($schedules as $schedule)
                     <tr>
-                        <td>
-                            @if (! $schedule->is_finalized)
-                                <a 
-                                    class="select-to-edit" 
-                                    href="{{ route('schedules.edit', $schedule->id) }}"
-                                    data-toggle="tooltip" 
-                                    data-placement="right" 
-                                    title="Edit selected schedule"
-                                >
+                        @hasanyrole('Super Administrator|Administrator|Registrar')
+                            <td>
+                                @if (! $schedule->is_finalized)
+                                    <a 
+                                        class="select-to-edit" 
+                                        href="{{ route('schedules.edit', $schedule->id) }}"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" 
+                                        title="Edit selected schedule"
+                                    >
+                                        {{ $schedule->code }}
+                                    </a>
+                                @else 
                                     {{ $schedule->code }}
-                                </a>
-                            @else 
-                                {{ $schedule->code }}
-                            @endif
-                        </td>
-                        <td>{{ $schedule->department->name }}</td>
-                        <td>{{ $schedule->course->name }}</td>
+                                @endif
+                            </td>
+                            <td>{{ $schedule->department->name }}</td>
+                            <td>{{ $schedule->course->name }}</td>
+                        @endhasanyrole
+                        @hasrole('Student')
+                            <td>{{ $schedule->year_level }}</td>
+                            <td>{{ $schedule->semester_type }}</td>
+                            <td>{{ $schedule->section }}</td>
+                        @endhasrole
                         <td>{{ $schedule->details->map->subject_id->unique()->count() }}</td>
                         @hasanyrole('Super Administrator|Administrator|Registrar')
                         <td>
@@ -225,7 +268,7 @@
         $(document).ready( function () {
             $('#schedules').DataTable({
                 pageLength: 5,
-                "order": []
+                // "order": []
             });
         });
     </script>

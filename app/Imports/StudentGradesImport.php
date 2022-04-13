@@ -58,7 +58,11 @@ class StudentGradesImport implements ToModel, WithHeadingRow, WithValidation, Wi
                 if (! in_array($value, $studentIDs)) {
                      $onFailure('The selected student id is not included in the schedule.');
                 }
-            }
+            },
+            'subject_code' => ['string', 'exists:subjects,code'],
+            'prelim' => ['numeric', 'min:0', 'max:100'],
+            'midterm' => ['numeric', 'min:0', 'max:100'],
+            'finals' => ['numeric', 'min:0', 'max:100']
         ];
     }
 
@@ -66,6 +70,7 @@ class StudentGradesImport implements ToModel, WithHeadingRow, WithValidation, Wi
     {
         return [
             'student_id.in' => 'The selected student is not included in the schedule.',
+            'subject_code.exists' => 'The selected subject is invalid'
         ];
     }
 

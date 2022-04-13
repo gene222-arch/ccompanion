@@ -35,9 +35,15 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedules = Schedule::query();
+        $isSchedulesTrashedOnly = false;
         $user = Auth::user();
 
-        if ($user->roles->first()->name === 'Student') 
+        if (request()->has('archives')) {
+            $schedules->onlyTrashed();
+            $isSchedulesTrashedOnly = true;
+        }
+
+        if ($user->hasRole('Student')) 
         {
             $schedules->where([
                 [ 'is_assigned_students_finalized', true ],
@@ -54,11 +60,12 @@ class ScheduleController extends Controller
                 'department'
             ])
             ->orderBy('is_finalized')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
         return view('app.schedule.index', [
-            'schedules' => $schedules
+            'schedules' => $schedules,
+            'isSchedulesTrashedOnly' => $isSchedulesTrashedOnly
         ]);
     }
 
@@ -84,21 +91,33 @@ class ScheduleController extends Controller
             ])
             ->get();
 
-        $students = $students->filter(function ($student) use ($schedule) {
-            return ($student->educationalLevel->upcoming_year_level === $schedule->year_level) &&
-                ($student->educationalLevel->upcoming_semester === $schedule->semester_type);
-        });
+        if (!$schedule->is_semester_finished && !$schedule->is_assigned_students_finalized)
+        {
+            $students = $students->filter(function ($student) use ($schedule) {
+                if (! $student->educationalLevel) {
+                    return true;
+                }
 
-        if ($schedule->is_assigned_students_finalized) {
-            $studentIDs = $schedule->studentGrades->map->student_id;
-            $students = $students->filter(fn ($student) => $studentIDs->search($student->id) !== false);
+                if ($student->educationalLevel) {
+                    return ($student->educationalLevel?->upcoming_year_level === $schedule->year_level) &&
+                        ($student->educationalLevel?->upcoming_semester === $schedule->semester_type);
+                }
+            });
         }
 
+        if ($schedule->is_assigned_students_finalized) 
+        {
+            $assignedStudentIDs = $schedule->studentGrades->map->student_id->unique()->toArray();
+            $students = $students->filter(fn ($student) => in_array($student->id, $assignedStudentIDs));
+        }
+
+        $relations = [
+            'details.subject',
+            'studentGrades'
+        ];
+
         $schedule = Schedule::query()
-            ->with([
-                'details.subject',
-                'studentGrades'
-            ])
+            ->with($relations)
             ->withCount('details')
             ->find($schedule->id);
 
@@ -196,10 +215,6 @@ class ScheduleController extends Controller
 
     public function showForStudent(Schedule $schedule, Student $student)
     {
-        $user = Auth::user();
-
-        $schedule = $user->student->activeSchedule();
-
         $schedule = Schedule::with([
             'details.subject',
             'details.professor'
